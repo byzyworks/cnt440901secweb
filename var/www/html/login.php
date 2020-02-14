@@ -15,34 +15,40 @@
 			$sql_uname  = "web-user";
 			$sql_passwd = "";
 			$sql_db     = "cnt440901secweb";
+            $usr_table  = "users";
 			$usr_uname  = $_POST['uname'];
-			$usr_hash   = $_POST['passwd'];
+			$usr_passwd = $_POST['passwd'];
 			$ip         = $_SERVER['SERVER_ADDR'];
 
+            // Create a session variable to be used across web pages
 			$_SESSION['uname'] = $usr_uname;
-
+            
 			// Create connection
 			$conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
 
 			// Check connection
 			if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
+                //header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 			}
 
-			$sql = "SELECT id, uname, passwd, bio FROM users_insecure WHERE uname='$usr_uname' AND passwd='$usr_hash'";
+            // Query database for user
+			$sql = "SELECT id, uname, hash, bio FROM $usr_table WHERE uname='$usr_uname'";
 			$result = $conn->query($sql);
 
+            // Check if user exists
 			if ($result->num_rows > 0) {
-			// output data from each row
 				while ($row = $result->fetch_assoc()) {
-					echo "ID: " . $row["id"] . ", Username: " . $row["uname"] . ", Password" . $row["passwd"] . ", Bio: " . $row["bio"] . "<br>";
+                    // Verify their password
+				    if (password_verify($usr_passwd, $row["hash"])) {
+                        $conn->close();
+                        header("Location: https://$ip/account.php");
+                    }
 				}
-				header("Location: https://$ip/account.php");
-			} else {
-				echo "No results found";
 			}
 
-			$conn->close();
+            $conn->close();
+            echo "Username or password is incorrect."
 		?>
 	</body>
 </html>
