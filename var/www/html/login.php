@@ -18,11 +18,10 @@
             $usr_table  = "users";
 			$usr_uname  = $_POST['uname'];
 			$usr_passwd = $_POST['passwd'];
-			$ip         = $_SERVER['SERVER_ADDR'];
-
+			
             // Create a session variable to be used across web pages
 			$_SESSION['uname'] = $usr_uname;
-            
+			
 			// Create connection
 			$conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
 
@@ -32,12 +31,17 @@
                 //header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 			}
 
+			// Query database for user (insecure)
+			//$sql = "SELECT id, uname, hash, bio FROM $usr_table WHERE uname='$usr_uname'";
+			//$result = $conn->query($sql);
+
             // Query database for user
-			$sql = "SELECT id, uname, hash, bio FROM $usr_table WHERE uname='$usr_uname'";
-			$result = $conn->query($sql);
+			$sql = $conn->prepare("SELECT id, uname, hash, bio FROM $usr_table WHERE uname='?'");
+			$sql->bind_param("s", $usr_uname);
 
             // Check if user exists
 			if ($result->num_rows > 0) {
+				$ip = $_SERVER['SERVER_ADDR'];
 				while ($row = $result->fetch_assoc()) {
                     // Verify their password
 				    if (password_verify($usr_passwd, $row["hash"])) {
