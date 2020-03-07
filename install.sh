@@ -18,6 +18,9 @@ mysql -u root -p cnt440901secweb < cnt440901secweb.sql
 cp -rf etc/* /etc
 cp -rf var/* /var
 
+# Set the permissions for the web root to ensure anyone can access the website
+chmod 755 -R /var/www/html
+
 # Create a symbolic link to the HTTPS site in sites-enabled for it to become available
 ln -s /etc/apache2/sites-available/000-default-ssl.conf /etc/apache2/sites-enabled/000-default-ssl.conf
 
