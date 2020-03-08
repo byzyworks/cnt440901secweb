@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  `uname` varchar(30) NOT NULL,
+  `uname` varchar(30) NOT NULL UNIQUE,
   `hash` varchar(60) NOT NULL,
   `bio` text,
   PRIMARY KEY (`id`)
@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `users_insecure`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users_insecure` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  `uname` varchar(30) NOT NULL,
+  `uname` varchar(30) NOT NULL UNIQUE,
   `passwd` varchar(30) NOT NULL,
   `bio` text,
   PRIMARY KEY (`id`)
