@@ -32,13 +32,15 @@
 			}
 
 			// Query database for user (insecure)
-			//$sql = "SELECT id, uname, hash, bio FROM $usr_table WHERE uname='$usr_uname'";
-			//$result = $conn->query($sql);
-
+			$sql = "SELECT id, uname, hash, bio FROM $usr_table WHERE uname='$usr_uname'";
+			$result = $conn->query($sql);
+			
             // Query database for user
-			$sql = $conn->prepare("SELECT id, uname, hash, bio FROM $usr_table WHERE uname='?'");
-			$sql->bind_param("s", $usr_uname);
-
+			//$stmt = $conn->prepare("SELECT id, uname, hash, bio FROM $usr_table WHERE uname = ?");
+			//$stmt->bind_param("s", $usr_uname);
+			//$stmt->execute();
+			//$result = $stmt->get_result();
+			
             // Check if user exists
 			if ($result->num_rows > 0) {
 				$ip = $_SERVER['SERVER_ADDR'];
