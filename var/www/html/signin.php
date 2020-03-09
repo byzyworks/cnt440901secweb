@@ -14,6 +14,11 @@
 				font-family: courier;
 				font-size: 125%;
 			}
+			form
+			{
+				border: 3px solid #f1f1f1;
+				width: 800px;
+			}
 			input[type=text], input[type=password]
 			{
 				width: 100%;
@@ -37,29 +42,27 @@
 			{
 				opacity: 0.8;
 			}
-			.borderless_container
-			{
-				width: 800px;
-				padding: 16px;
-			}
 			.container
 			{
-				border: 3px solid #f1f1f1;
-				width: 800px;
 				padding: 16px;
-			}
+			} 
 		</style>
 		<script>
 		</script>
 	</head>
 	<body>
-		<div class="container">
-			<button onclick="window.location.href = 'signup.php';">Sign Up</button>
-			<button onclick="window.location.href = 'signin.php';">Sign In</button>
-		</div>
-		<div class="borderless_container">
-			<span><b>Welcome</b></span>
-		</div>
+		<form action="auth.php" method="post">
+			<div class="container">
+				<label for="uname"><b>Username</b></label>
+				<input type="text" placeholder="Enter Username" name="uname" required>
+				<label for="passwd"><b>Password</b></label>
+				<input type="password" placeholder="Enter Password" name="passwd" required>
+				<button type="submit">Login</button>
+				<label>
+					<input type="checkbox" checked="checked" name="remember"> Remember me
+				</label>
+			</div>
+		</form>
 		<script>
 		</script>
 	</body>
