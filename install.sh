@@ -2,7 +2,8 @@
 
 # Get the necessary packages, namely Oracle Apache2, MySQL Server, and PHP
 apt-get update
-apt-get install apache2 mysql-server libapache2-mod-php5 php5-mysql php5-mysqlnd
+apt-get install apache2 mysql-server libapache2-mod-php5 php5-mysql
+apt-get install php5-mysqlnd
 
 # Open to both HTTP and HTTPS traffic. Both must be enabled, even if HTTP just redirects to HTTPS
 ufw enable
