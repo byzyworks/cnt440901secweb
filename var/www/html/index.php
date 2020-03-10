@@ -54,11 +54,25 @@
 	</head>
 	<body>
 		<div class="container">
-			<button onclick="window.location.href = 'signup.php';">Sign Up</button>
-			<button onclick="window.location.href = 'signin.php';">Sign In</button>
+			<?php
+				if (!isset($_SESSION['uname']))
+				{
+					echo "<button onclick=\"window.location.href = 'signup.php';\">Sign Up</button>";
+					echo "<button onclick=\"window.location.href = 'signin.php';\">Sign In</button>";
+				}
+				else
+				{
+					echo "<button onclick=\"window.location.href = 'account.php';\">Account</button>";
+					echo "<button onclick=\"window.location.href = 'logout.php';\">Logout</button>";
+				}
+			?>
 		</div>
 		<div class="borderless_container">
-			<span><b>Welcome</b></span>
+			<span><b>Welcome<?php
+				if (isset($_SESSION['uname'])) {
+					echo ", " . $_SESSION['uname'];
+				}
+			?></b></span>
 		</div>
 		<script>
 		</script>
