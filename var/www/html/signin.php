@@ -42,10 +42,16 @@
 			{
 				opacity: 0.8;
 			}
+			.borderless_container
+			{
+				width: 800px;
+				padding: 16px;
+				font-size: 100%;
+			}
 			.container
 			{
 				padding: 16px;
-			} 
+			}
 		</style>
 		<script>
 		</script>
@@ -63,6 +69,16 @@
 				</label>
 			</div>
 		</form>
+		<?php
+			if ($_SERVER['HTTP_REFERER'] == "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]") {
+				echo "<div class=\"borderless_container\">";
+				echo "\t<span><b>Username or password is incorrect</b></span>";
+				echo "</div>";
+				
+				session_unset();
+				session_destroy();
+			}
+		?>
 		<script>
 		</script>
 	</body>

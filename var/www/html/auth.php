@@ -44,11 +44,13 @@
 				// Forward the user to their account page
 				$conn->close();
 				header("Location: https://$ip/account.php");
+				exit;
 			}
 		}
 	}
 
 	// In case of login failure, close the connection and give an weakly-informative error message
 	$conn->close();
-	echo "Username or password is incorrect."
+	header("Location: https://$ip/signin.php");
+	exit;
 ?>
