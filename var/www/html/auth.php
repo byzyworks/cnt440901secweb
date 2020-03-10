@@ -1,6 +1,7 @@
 <?php
 	session_start();
 
+	$ip         = $_SERVER['SERVER_ADDR'];
 	$sql_server = 'localhost';
 	$sql_uname  = 'web-user';
 	$sql_passwd = '';
@@ -8,8 +9,14 @@
 	$usr_table  = 'users';
 	$usr_uname  = $_POST['uname'];
 	$usr_passwd = $_POST['passwd'];
-	$ip         = $_SERVER['SERVER_ADDR'];
 	
+	
+	if (isset($_SESSION['uname']))
+	{
+		header("Location: https://$ip/account.php");
+		exit;
+	}
+
 	// Create a session variable to be used across web pages
 	$_SESSION['uname'] = $usr_uname;
 	

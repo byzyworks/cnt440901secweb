@@ -9,7 +9,18 @@
 	$usr_table  = 'users';
 	$usr_uname  = $_POST['uname'];
 	$usr_passwd = $_POST['passwd'];
-	
+
+	if (!isset($usr_uname))
+	{
+		header("Location: https://$ip/signup.php");
+		exit;
+	}
+	if (isset($_SESSION['uname']))
+	{
+		header("Location: https://$ip/account.php");
+		exit;
+	}
+
 	// Create connection
 	$conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
 
@@ -21,16 +32,19 @@
 	}
 	
 	// Hash the new user's password
-	$cost       = 12;
-	$usr_passwd = password_hash($usr_passwd, PASSWORD_BCRYPT, ["cost" => $cost]);
+	$cost     = 12;
+	$usr_hash = password_hash($usr_passwd, PASSWORD_BCRYPT, ["cost" => $cost]);
 	
 	// Attempt to add the new user's credentials to the database
 	$stmt = $conn->prepare("INSERT INTO $usr_table (uname, hash) VALUES (?, ?)");
 	$stmt->bind_param("ss", $usr_uname, $usr_passwd);
 	$stmt->execute();
+	
+	// Log the user in
+	$_SESSION['uname'] = $usr_uname;
 
-	// Close the connection and go back
+	// Close the connection and go to the user's account page
 	$conn->close();
-	header("Location: https://$ip/index.php");
+	header("Location: https://$ip/account.php");
 	exit;
 ?>
