@@ -1,11 +1,11 @@
 <?php
 	session_start();
 
-	$sql_server = "localhost";
-	$sql_uname  = "web-user";
-	$sql_passwd = "";
-	$sql_db     = "cnt440901secweb";
-	$usr_table  = "users";
+	$sql_server = 'localhost';
+	$sql_uname  = 'web-user';
+	$sql_passwd = '';
+	$sql_db     = 'cnt440901secweb';
+	$usr_table  = 'users';
 	$usr_uname  = $_POST['uname'];
 	$usr_passwd = $_POST['passwd'];
 	$ip         = $_SERVER['SERVER_ADDR'];
@@ -17,7 +17,8 @@
 	$conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
 
 	// Check connection
-	if ($conn->connect_error) {
+	if ($conn->connect_error)
+	{
 		die("Connection failed: " . $conn->connect_error);
 		//header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 	}
@@ -33,16 +34,21 @@
 	$result = $stmt->get_result();
 	
 	// Check if user exists
-	if ($result->num_rows > 0) {
-		while ($row = $result->fetch_assoc()) {
+	if ($result->num_rows > 0)
+	{
+		while ($row = $result->fetch_assoc())
+		{
 			// Verify their password
-			if (password_verify($usr_passwd, $row["hash"])) {
+			if (password_verify($usr_passwd, $row['hash']))
+			{
+				// Forward the user to their account page
 				$conn->close();
 				header("Location: https://$ip/account.php");
 			}
 		}
 	}
 
+	// In case of login failure, close the connection and give an weakly-informative error message
 	$conn->close();
 	echo "Username or password is incorrect."
 ?>

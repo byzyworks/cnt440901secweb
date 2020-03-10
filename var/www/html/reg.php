@@ -14,7 +14,8 @@
 	$conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
 
 	// Check connection
-	if ($conn->connect_error) {
+	if ($conn->connect_error)
+	{
 		die("Connection failed: " . $conn->connect_error);
 		//header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 	}
