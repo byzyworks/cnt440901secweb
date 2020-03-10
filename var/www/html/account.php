@@ -1,5 +1,13 @@
 <?php
 	session_start();
+	
+	$ip = $_SERVER['SERVER_ADDR'];
+	
+	if (!isset($_SESSION['uname']))
+	{
+		header("Location: https://$ip/index.php");
+		exit;
+	}
 ?>
 
 <!doctype html>
@@ -13,11 +21,6 @@
 			{
 				font-family: courier;
 				font-size: 125%;
-			}
-			form
-			{
-				border: 3px solid #f1f1f1;
-				width: 800px;
 			}
 			input[type=text], input[type=password]
 			{
@@ -42,16 +45,33 @@
 			{
 				opacity: 0.8;
 			}
+			.borderless_container
+			{
+				width: 800px;
+				padding: 16px;
+			}
 			.container
 			{
+				border: 3px solid #f1f1f1;
+				width: 800px;
 				padding: 16px;
-			} 
+			}
 		</style>
 		<script>
 		</script>
 	</head>
 	<body>
-		<span>Welcome, <?php echo $_SESSION['uname']; ?></span>
+		<div class="container">
+			<button onclick="window.location.href = 'index.php';">Home</button>
+			<button onclick="window.location.href = 'out.php';">Logout</button>
+		</div>
+		<div class="borderless_container">
+			<span><b>Welcome<?php
+				if (isset($_SESSION['uname'])) {
+					echo ", " . $_SESSION['uname'];
+				}
+			?></b></span>
+		</div>
 		<script>
 		</script>
 	</body>
