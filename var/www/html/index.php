@@ -63,7 +63,7 @@
 				else
 				{
 					echo "<button onclick=\"window.location.href = 'account';\">Account</button>";
-					echo "<button onclick=\"window.location.href = 'logout';\">Logout</button>";
+					echo "<button onclick=\"window.location.href = 'out';\">Logout</button>";
 				}
 			?>
 		</div>
