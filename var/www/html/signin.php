@@ -57,7 +57,7 @@
 		</script>
 	</head>
 	<body>
-		<form action="auth.php" method="post">
+		<form action="auth" method="post">
 			<div class="container">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" placeholder="Enter Username" name="uname" required>

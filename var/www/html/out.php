@@ -9,6 +9,6 @@
 		session_destroy();
 	}
 
-	header("Location: https://$ip/index.php");
+	header("Location: https://$ip");
 	exit;
 ?>

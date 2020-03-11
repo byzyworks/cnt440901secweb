@@ -13,7 +13,7 @@
 	
 	if (isset($_SESSION['uname']))
 	{
-		header("Location: https://$ip/account.php");
+		header("Location: https://$ip/account");
 		exit;
 	}
 
@@ -50,7 +50,7 @@
 			{
 				// Forward the user to their account page
 				$conn->close();
-				header("Location: https://$ip/account.php");
+				header("Location: https://$ip/account");
 				exit;
 			}
 		}
@@ -58,6 +58,6 @@
 
 	// In case of login failure, close the connection and give an weakly-informative error message
 	$conn->close();
-	header("Location: https://$ip/signin.php");
+	header("Location: https://$ip/signin");
 	exit;
 ?>

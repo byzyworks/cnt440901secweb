@@ -5,7 +5,7 @@
 	
 	if (!isset($_SESSION['uname']))
 	{
-		header("Location: https://$ip/index.php");
+		header("Location: https://$ip");
 		exit;
 	}
 ?>
@@ -62,8 +62,8 @@
 	</head>
 	<body>
 		<div class="container">
-			<button onclick="window.location.href = 'index.php';">Home</button>
-			<button onclick="window.location.href = 'out.php';">Logout</button>
+			<button onclick="window.location.href = '/';">Home</button>
+			<button onclick="window.location.href = 'out';">Logout</button>
 		</div>
 		<div class="borderless_container">
 			<span><b>Welcome<?php

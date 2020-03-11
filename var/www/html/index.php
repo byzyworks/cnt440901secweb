@@ -57,13 +57,13 @@
 			<?php
 				if (!isset($_SESSION['uname']))
 				{
-					echo "<button onclick=\"window.location.href = 'signup.php';\">Sign Up</button>";
-					echo "<button onclick=\"window.location.href = 'signin.php';\">Sign In</button>";
+					echo "<button onclick=\"window.location.href = 'signup';\">Sign Up</button>";
+					echo "<button onclick=\"window.location.href = 'signin';\">Sign In</button>";
 				}
 				else
 				{
-					echo "<button onclick=\"window.location.href = 'account.php';\">Account</button>";
-					echo "<button onclick=\"window.location.href = 'logout.php';\">Logout</button>";
+					echo "<button onclick=\"window.location.href = 'account';\">Account</button>";
+					echo "<button onclick=\"window.location.href = 'logout';\">Logout</button>";
 				}
 			?>
 		</div>

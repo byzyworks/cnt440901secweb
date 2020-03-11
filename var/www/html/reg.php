@@ -12,12 +12,12 @@
 
 	if (!isset($usr_uname))
 	{
-		header("Location: https://$ip/signup.php");
+		header("Location: https://$ip/signup");
 		exit;
 	}
 	if (isset($_SESSION['uname']))
 	{
-		header("Location: https://$ip/account.php");
+		header("Location: https://$ip/account");
 		exit;
 	}
 
@@ -45,6 +45,6 @@
 
 	// Close the connection and go to the user's account page
 	$conn->close();
-	header("Location: https://$ip/account.php");
+	header("Location: https://$ip/account");
 	exit;
 ?>

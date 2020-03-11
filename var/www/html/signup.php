@@ -51,7 +51,7 @@
 		</script>
 	</head>
 	<body>
-		<form action="reg.php" method="post">
+		<form action="reg" method="post">
 			<div class="container">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" placeholder="Enter Username" name="uname" required>
