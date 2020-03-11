@@ -93,6 +93,10 @@
 				width: 800px;
 				padding: 16px;
 			}
+            form
+            {
+                font-size: inherit;
+            }
 			textarea
 			{
 				resize: vertical;
@@ -121,37 +125,16 @@
 				editBio()
 				{
 					var innerHTML = "";
-					
+				    
 					innerHTML += "<h>Bio:</h>";
-					innerHTML += "<textarea id=\"bio_content_new\">";
+					innerHTML += "<textarea id=\"bio_content_new\" name=\"bio\" form=\"bio_form\">";
 					innerHTML += this.bio_content;
 					innerHTML += "</textarea>";
-					innerHTML += "<button onclick=\"saveBio()\">Save</button>";
+                    innerHTML += "<form id=\"bio_form\" action=\"updatebio\" method=\"post\">";
+					innerHTML += "<button type=\"submit\">Save</button>";
+                    innerHTML += "</form>";
 					innerHTML += "<button onclick=\"resetBio()\">Cancel</button>";
 					
-					document.getElementById("bio").innerHTML = innerHTML;
-				}
-				
-				saveBio()
-				{
-					var bio_content_new = document.getElementById("bio_content_new").value;
-					var innerHTML       = "";
-					
-                    if (bio_content_new != "")
-                    {
-					    innerHTML += "<h>Bio:</h>";
-					    innerHTML += "<section id=\"bio_content\">";
-					    innerHTML += bio_content_new;
-					    innerHTML += "</section>";
-					    innerHTML += "<button onclick=\"editBio()\">Edit Bio</button>";
-                    }
-                    else
-                    {
-					    innerHTML += "<section id=\"bio_content\"></section>";
-					    innerHTML += "<button onclick=\"editBio()\">Create Bio</button>";
-                    }
-					
-					this.bio_content = bio_content_new;
 					document.getElementById("bio").innerHTML = innerHTML;
 				}
 				
@@ -183,11 +166,6 @@
 				myMain.editBio();
 			}
 			
-			function saveBio()
-			{
-				myMain.saveBio();
-			}
-			
 			function resetBio()
 			{
 				myMain.resetBio();
@@ -209,7 +187,7 @@
 		</div>
 		<div id="bio" class="container">
 			<?php
-				if (isset($usr_bio))
+				if (isset($usr_bio) && !empty($usr_bio))
 				{
 					echo "<h>Bio:</h>";
 					echo "<section id=\"bio_content\">$usr_bio</section>";
@@ -221,7 +199,6 @@
                     echo "<button onclick=\"editBio()\">Create Bio</button>";
                 }
 			?>
-			
 		</div>
 		<script>
 			var myMain = new main();

@@ -12,7 +12,7 @@ ufw allow https
 ufw reload
 
 # Load the given database into MySQL for use by the web server
-mysql -u root -p -e "CREATE DATABASE cnt440901secweb; CREATE USER 'web-user'@'localhost'; GRANT SELECT, INSERT ON cnt440901secweb.* TO 'web-user'@'localhost';"
+mysql -u root -p -e "CREATE DATABASE cnt440901secweb; CREATE USER 'web-user'@'localhost'; GRANT SELECT, INSERT, UPDATE ON cnt440901secweb.* TO 'web-user'@'localhost';"
 mysql -u root -p cnt440901secweb < cnt440901secweb.sql
 
 # Copy all the necessary files given here, overriding anything already there
