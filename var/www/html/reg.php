@@ -40,7 +40,7 @@
 	}
 	
 	// Query database to see if user already exists
-	$stmt = $conn->prepare("SELECT id, uname, hash, bio FROM $usr_table WHERE uname = ?");
+	$stmt = $conn->prepare("SELECT uname FROM $usr_table WHERE uname = ?");
 	$stmt->bind_param("s", $usr_uname);
 	$stmt->execute();
 	$result = $stmt->get_result();

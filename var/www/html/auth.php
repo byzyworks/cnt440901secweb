@@ -34,7 +34,7 @@
 	//$result = $conn->query($sql);
 	
 	// Query database for user
-	$stmt = $conn->prepare("SELECT id, uname, hash, bio FROM $usr_table WHERE uname = ?");
+	$stmt = $conn->prepare("SELECT hash FROM $usr_table WHERE uname = ?");
 	$stmt->bind_param("s", $usr_uname);
 	$stmt->execute();
 	$result = $stmt->get_result();
