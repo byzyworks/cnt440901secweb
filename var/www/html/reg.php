@@ -10,14 +10,14 @@
 	$usr_uname  = $_POST['uname'];
 	$usr_passwd = $_POST['passwd'];
 
-	if (!isset($usr_uname))
-	{
-		header("Location: https://$ip/signup");
-		exit;
-	}
 	if (isset($_SESSION['uname']))
 	{
 		header("Location: https://$ip/account");
+		exit;
+	}
+	if (!isset($usr_uname))
+	{
+		header("Location: https://$ip/signup");
 		exit;
 	}
 
