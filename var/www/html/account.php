@@ -137,11 +137,19 @@
 					var bio_content_new = document.getElementById("bio_content_new").value;
 					var innerHTML       = "";
 					
-					innerHTML += "<h>Bio:</h>";
-					innerHTML += "<section id=\"bio_content\">";
-					innerHTML += bio_content_new;
-					innerHTML += "</section>";
-					innerHTML += "<button onclick=\"editBio()\">Edit</button>";
+                    if (bio_content_new != "")
+                    {
+					    innerHTML += "<h>Bio:</h>";
+					    innerHTML += "<section id=\"bio_content\">";
+					    innerHTML += bio_content_new;
+					    innerHTML += "</section>";
+					    innerHTML += "<button onclick=\"editBio()\">Edit Bio</button>";
+                    }
+                    else
+                    {
+					    innerHTML += "<section id=\"bio_content\"></section>";
+					    innerHTML += "<button onclick=\"editBio()\">Create Bio</button>";
+                    }
 					
 					this.bio_content = bio_content_new;
 					document.getElementById("bio").innerHTML = innerHTML;
@@ -151,11 +159,20 @@
 				{
 					var innerHTML = "";
 					
-					innerHTML += "<h>Bio:</h>";
-					innerHTML += "<section id=\"bio_content\">";
-					innerHTML += this.bio_content;
-					innerHTML += "</section>";
-					innerHTML += "<button onclick=\"editBio()\">Edit</button>";
+
+                    if (this.bio_content != "")
+                    {
+					    innerHTML += "<h>Bio:</h>";
+					    innerHTML += "<section id=\"bio_content\">";
+					    innerHTML += this.bio_content;
+					    innerHTML += "</section>";
+					    innerHTML += "<button onclick=\"editBio()\">Edit Bio</button>";
+                    }
+                    else
+                    {
+                        innerHTML += "<section id=\"bio_content\"></section>";
+					    innerHTML += "<button onclick=\"editBio()\">Create Bio</button>";
+                    }   
 					
 					document.getElementById("bio").innerHTML = innerHTML;
 				}
@@ -196,9 +213,15 @@
 				{
 					echo "<h>Bio:</h>";
 					echo "<section id=\"bio_content\">$usr_bio</section>";
+                    echo "<button onclick=\"editBio()\">Edit Bio</button>";
 				}
+                else
+                {
+                    echo "<section id=\"bio_content\"></section>";
+                    echo "<button onclick=\"editBio()\">Create Bio</button>";
+                }
 			?>
-			<button onclick="editBio()">Edit</button>
+			
 		</div>
 		<script>
 			var myMain = new main();
