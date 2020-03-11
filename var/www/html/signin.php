@@ -70,9 +70,10 @@
 			</div>
 		</form>
 		<?php
-			if ($_SERVER['HTTP_REFERER'] == "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]") {
+			if ($_SERVER['HTTP_REFERER'] == "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")
+			{
 				echo "<div class=\"borderless_container\">";
-				echo "\t<span><b>Username or password is incorrect</b></span>";
+				echo "\t<span><b>$_SESSION[error]</b></span>";
 				echo "</div>";
 				
 				session_unset();

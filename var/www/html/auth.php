@@ -10,7 +10,6 @@
 	$usr_uname  = $_POST['uname'];
 	$usr_passwd = $_POST['passwd'];
 	
-	
 	if (isset($_SESSION['uname']))
 	{
 		header("Location: https://$ip/account");
@@ -58,6 +57,7 @@
 
 	// In case of login failure, close the connection and give an weakly-informative error message
 	$conn->close();
+	$_SESSION['error'] = "Username or password is incorrect.";
 	header("Location: https://$ip/signin");
 	exit;
 ?>
