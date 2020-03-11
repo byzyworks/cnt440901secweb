@@ -60,7 +60,7 @@
 	
 	// Attempt to add the new user's credentials to the database
 	$stmt = $conn->prepare("INSERT INTO $usr_table (uname, hash) VALUES (?, ?)");
-	$stmt->bind_param("ss", $usr_uname, $usr_passwd);
+	$stmt->bind_param("ss", $usr_uname, $usr_hash);
 	$stmt->execute();
 	
 	// Log the user in
