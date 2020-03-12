@@ -1,6 +1,7 @@
 <?php
 	session_start();
 
+	$page_home        = 'https://' . $_SERVER['HTTP_HOST'];
 	$page_account     = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
 	$page_signup      = 'https://' . $_SERVER['HTTP_HOST'] . '/signup';
 	$form_uname       = $_POST['uname'];
@@ -57,21 +58,18 @@
 	}
 	
 	// Hash the new user's password
-	$cost     = 12;
-	$form_hash = password_hash($form_passwd, PASSWORD_BCRYPT, ['cost' => $cost]);
+	$cost = 12;
+	$hash = password_hash($form_passwd, PASSWORD_BCRYPT, ['cost' => $cost]);
 	
 	// Attempt to add the new user's credentials to the database
 	$stmt = $sql_conn->prepare("INSERT INTO $sql_table (uname, hash) VALUES (?, ?)");
-	$stmt->bind_param('ss', $form_uname, $form_hash);
+	$stmt->bind_param('ss', $form_uname, $hash);
 	$stmt->execute();
 	
 	// Close the connection to MySQL
 	$sql_conn->close();
-	
-	// Log the user in
-	$_SESSION['uname'] = $form_uname;
 
 	// Forward the user to their account page
-	header('Location: ' . $page_account);
+	header('Location: ' . $page_home);
 	exit;
 ?>
