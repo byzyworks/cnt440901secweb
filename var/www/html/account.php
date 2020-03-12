@@ -1,33 +1,39 @@
 <?php
 	session_start();
 	
-	$ip         = $_SERVER['SERVER_ADDR'];
+	$server_ip = $_SERVER['SERVER_ADDR'];
+	$page_usr  = $_GET['user'];
+	$sesn_usr  = $_SESSION['uname'];
+	
+	// Redirect users depending on if they're logged in or not
+	if (!isset($page_usr))
+	{
+		if (!isset($sesn_usr))
+		{
+			header("Location: https://$server_ip");
+			exit;
+		}
+		header("Location: https://$server_ip/account?user=$sesn_usr");
+		exit;
+	}
+	
 	$sql_server = 'localhost';
 	$sql_uname  = 'web-user';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
-	$usr_table  = 'users';
 	
-	// Redirect user if not logged in
-	if (!isset($_SESSION['uname']))
+	// Create a connection to MySQL
+	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
+	if ($sql_conn->connect_error)
 	{
-		header("Location: https://$ip");
-		exit;
-	}
-	
-	// Create connection
-	$conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
-
-	// Check connection
-	if ($conn->connect_error)
-	{
-		die("Connection failed: " . $conn->connect_error);
-		//header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+		header("HTTP/1.0 500 Internal Server Error");
+		die("500 Internal Server Error");
 	}
 	
 	// Extract bio from user profile
-	$stmt = $conn->prepare("SELECT bio FROM $usr_table WHERE uname = ?");
-	$stmt->bind_param("s", $_SESSION['uname']);
+	$sql_table = 'users';
+	$stmt = $sql_conn->prepare("SELECT bio FROM $sql_table WHERE uname = ?");
+	$stmt->bind_param("s", $page_usr);
 	$stmt->execute();
 	$result = $stmt->get_result();
 	
@@ -38,13 +44,13 @@
 		{
 			if (isset($row['bio']))
 			{
-				$usr_bio = $row['bio'];
+				$page_bio = $row['bio'];
 			}
 		}
 	}
 	
 	// Close the connection
-	$conn->close();
+	$sql_conn->close();
 ?>
 
 <!doctype html>
@@ -119,7 +125,7 @@
 			{
 				constructor()
 				{
-					this.bio_content = document.getElementById("bio_content").innerHTML;
+					this.bio_ctnt = document.getElementById("bio_ctnt").innerHTML;
 				}
 				
 				editBio()
@@ -127,8 +133,8 @@
 					var innerHTML = "";
 				    
 					innerHTML += "<h>Bio:</h>";
-					innerHTML += "<textarea id=\"bio_content_new\" name=\"bio\" form=\"bio_form\">";
-					innerHTML += this.bio_content;
+					innerHTML += "<textarea id=\"bio_ctnt_new\" name=\"bio\" form=\"bio_form\">";
+					innerHTML += this.bio_ctnt;
 					innerHTML += "</textarea>";
                     innerHTML += "<form id=\"bio_form\" action=\"updatebio\" method=\"post\">";
 					innerHTML += "<button type=\"submit\">Save</button>";
@@ -142,18 +148,17 @@
 				{
 					var innerHTML = "";
 					
-
-                    if (this.bio_content != "")
+                    if (this.bio_ctnt != "")
                     {
 					    innerHTML += "<h>Bio:</h>";
-					    innerHTML += "<section id=\"bio_content\">";
-					    innerHTML += this.bio_content;
+					    innerHTML += "<section id=\"bio_ctnt\">";
+					    innerHTML += this.bio_ctnt;
 					    innerHTML += "</section>";
 					    innerHTML += "<button onclick=\"editBio()\">Edit Bio</button>";
                     }
                     else
                     {
-                        innerHTML += "<section id=\"bio_content\"></section>";
+                        innerHTML += "<section id=\"bio_ctnt\"></section>";
 					    innerHTML += "<button onclick=\"editBio()\">Create Bio</button>";
                     }   
 					
@@ -175,31 +180,48 @@
 	<body>
 		<div class="container">
 			<button onclick="window.location.href = '/';">Home</button>
-			<button onclick="window.location.href = 'out';">Logout</button>
-		</div>
-		<div class="borderless_container">
-			<span><b>Welcome<?php
-				if (isset($_SESSION['uname']))
-				{
-					echo ", " . $_SESSION['uname'];
-				}
-			?></b></span>
-		</div>
-		<div id="bio" class="container">
 			<?php
-				if (isset($usr_bio) && !empty($usr_bio))
+				if (isset($sesn_usr))
 				{
-					echo "<h>Bio:</h>";
-					echo "<section id=\"bio_content\">$usr_bio</section>";
-                    echo "<button onclick=\"editBio()\">Edit Bio</button>";
+					echo "<button onclick=\"window.location.href = 'out';\">Logout</button>";
 				}
-                else
-                {
-                    echo "<section id=\"bio_content\"></section>";
-                    echo "<button onclick=\"editBio()\">Create Bio</button>";
-                }
 			?>
 		</div>
+		<div class="borderless_container">
+			<?php
+				echo "<span><b>";
+				if ($page_usr == $sesn_usr)
+				{
+					echo "Welcome, ";
+				}
+				echo "$page_usr";
+				echo "</b></span>";
+			?>
+		</div>
+		<?php
+			if (isset($page_bio) && !empty($page_bio) || $page_usr == $sesn_usr)
+			{
+				echo "<div id=\"bio\" class=\"container\">";
+				if (isset($page_bio) && !empty($page_bio))
+				{
+					echo "<h>Bio:</h>";
+					echo "<section id=\"bio_ctnt\">$page_bio</section>";
+					if ($page_usr == $sesn_usr)
+					{
+						echo "<button onclick=\"editBio()\">Edit Bio</button>";
+					}
+				}
+				else
+				{
+					echo "<section id=\"bio_ctnt\"></section>";
+					if ($page_usr == $sesn_usr)
+					{
+						echo "<button onclick=\"editBio()\">Create Bio</button>";
+					}
+				}
+				echo "</div>";
+			}
+		?>
 		<script>
 			var myMain = new main();
 		</script>
