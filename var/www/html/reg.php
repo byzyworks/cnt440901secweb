@@ -1,9 +1,9 @@
 <?php
 	session_start();
 
-	$page_home        = 'https://' . $_SERVER['HTTP_HOST'];
 	$page_account     = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
 	$page_signup      = 'https://' . $_SERVER['HTTP_HOST'] . '/signup';
+	$page_signin      = 'https://' . $_SERVER['HTTP_HOST'] . '/signin';
 	$form_uname       = $_POST['uname'];
 	$form_passwd      = $_POST['passwd'];
 	$form_passwd_conf = $_POST['passwd_conf'];
@@ -70,6 +70,6 @@
 	$sql_conn->close();
 
 	// Forward the user to their account page
-	header('Location: ' . $page_home);
+	header('Location: ' . $page_signin);
 	exit;
 ?>
