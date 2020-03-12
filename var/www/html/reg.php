@@ -1,73 +1,77 @@
 <?php
 	session_start();
 
-	$ip              = $_SERVER['SERVER_ADDR'];
-	$sql_server      = 'localhost';
-	$sql_uname       = 'web-user';
-	$sql_passwd      = '';
-	$sql_db          = 'cnt440901secweb';
-	$usr_table       = 'users';
-	$usr_uname       = $_POST['uname'];
-	$usr_passwd      = $_POST['passwd'];
-	$usr_passwd_conf = $_POST['passwd_conf'];
+	$page_account     = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
+	$page_signup      = 'https://' . $_SERVER['HTTP_HOST'] . '/signup';
+	$form_uname       = $_POST['uname'];
+	$form_passwd      = $_POST['passwd'];
+	$form_passwd_conf = $_POST['passwd_conf'];
+	$sesn_usr         = $_SESSION['uname'];
 
-	if (isset($_SESSION['uname']))
+	// Redirect users if they opened this page through non-standard means
+	if (isset($sesn_usr))
 	{
-		header("Location: https://$ip/account");
+		header('Location: ' . $page_account);
 		exit;
 	}
-	if (!isset($usr_uname))
+	if (!isset($form_uname))
 	{
-		header("Location: https://$ip/signup");
-		exit;
-	}
-
-	if ($usr_passwd_conf != $usr_passwd)
-	{
-		$_SESSION['error'] = "Passwords do not match.";
-		header("Location: https://$ip/signup");
+		header('Location: ' . $page_signup);
 		exit;
 	}
 
-	// Create connection
-	$conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
-
-	// Check connection
-	if ($conn->connect_error)
+	// Stop account creation if passwords don't match
+	if ($form_passwd_conf != $form_passwd)
 	{
-		die("Connection failed: " . $conn->connect_error);
-		//header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+		$_SESSION['error'] = 'Passwords do not match.';
+		header('Location: ' . $page_signup);
+		exit;
+	}
+
+	$sql_server = 'localhost';
+	$sql_uname  = 'web-user';
+	$sql_passwd = '';
+	$sql_db     = 'cnt440901secweb';
+
+	// Create a connection to MySQL
+	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
+	if ($sql_conn->connect_error)
+	{
+		header('HTTP/1.0 500 Internal Server Error');
+		die('500 Internal Server Error');
 	}
 	
 	// Query database to see if user already exists
-	$stmt = $conn->prepare("SELECT uname FROM $usr_table WHERE uname = ?");
-	$stmt->bind_param("s", $usr_uname);
+	$sql_table = 'users';
+	$stmt = $sql_conn->prepare("SELECT uname FROM $sql_table WHERE uname = ?");
+	$stmt->bind_param('s', $form_uname);
 	$stmt->execute();
 	$result = $stmt->get_result();
 	
-	// Reject them if so
+	// Stop account creation if so
 	if ($result->num_rows > 0)
 	{
-		$conn->close();
-		$_SESSION['error'] = "Username already exists.";
-		header("Location: https://$ip/signup");
+		$_SESSION['error'] = 'Username already exists.';
+		header('Location: ' . $page_signup);
 		exit;
 	}
 	
 	// Hash the new user's password
 	$cost     = 12;
-	$usr_hash = password_hash($usr_passwd, PASSWORD_BCRYPT, ["cost" => $cost]);
+	$form_hash = password_hash($form_passwd, PASSWORD_BCRYPT, ['cost' => $cost]);
 	
 	// Attempt to add the new user's credentials to the database
-	$stmt = $conn->prepare("INSERT INTO $usr_table (uname, hash) VALUES (?, ?)");
-	$stmt->bind_param("ss", $usr_uname, $usr_hash);
+	$stmt = $sql_conn->prepare("INSERT INTO $sql_table (uname, hash) VALUES (?, ?)");
+	$stmt->bind_param('ss', $form_uname, $form_hash);
 	$stmt->execute();
 	
+	// Close the connection to MySQL
+	$sql_conn->close();
+	
 	// Log the user in
-	$_SESSION['uname'] = $usr_uname;
+	$_SESSION['uname'] = $form_uname;
 
-	// Close the connection and go to the user's account page
-	$conn->close();
-	header("Location: https://$ip/account");
+	// Forward the user to their account page
+	header('Location: ' . $page_account);
 	exit;
 ?>

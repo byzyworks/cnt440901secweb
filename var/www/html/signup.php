@@ -72,11 +72,16 @@
 			</div>
 		</form>
 		<?php
-			if ($_SERVER['HTTP_REFERER'] == "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")
+			$page_last = $_SERVER['HTTP_REFERER'];
+			$page_curr = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			
+			if ($page_curr == $page_last)
 			{
-				echo "<div class=\"borderless_container\">";
-				echo "\t<span><b>$_SESSION[error]</b></span>";
-				echo "</div>";
+				$sesn_err = $_SESSION['error'];
+				
+				echo '<div class="borderless_container">';
+				echo '<span><b>' . $sesn_err . '</b></span>';
+				echo '</div>';
 				
 				session_unset();
 				session_destroy();

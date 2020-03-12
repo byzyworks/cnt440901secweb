@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	
+	$sesn_usr = $_SESSION['uname'];
 ?>
 
 <!doctype html>
@@ -55,24 +57,27 @@
 	<body>
 		<div class="container">
 			<?php
-				if (!isset($_SESSION['uname']))
+				if (!isset($sesn_usr))
 				{
-					echo "<button onclick=\"window.location.href = 'signup';\">Sign Up</button>";
-					echo "<button onclick=\"window.location.href = 'signin';\">Sign In</button>";
+					echo '<button onclick="window.location.href = \'signup\';">Sign Up</button>';
+					echo '<button onclick="window.location.href = \'signin\';">Sign In</button>';
 				}
 				else
 				{
-					echo "<button onclick=\"window.location.href = 'account';\">Account</button>";
-					echo "<button onclick=\"window.location.href = 'out';\">Logout</button>";
+					echo '<button onclick="window.location.href = \'account\';">Account</button>';
+					echo '<button onclick="window.location.href = \'out\';">Logout</button>';
 				}
 			?>
 		</div>
 		<div class="borderless_container">
-			<span><b>Welcome<?php
-				if (isset($_SESSION['uname'])) {
-					echo ", " . $_SESSION['uname'];
+			<?php
+				echo '<span><b>Welcome';
+				if (isset($sesn_usr))
+				{
+					echo ', ' . $sesn_usr;
 				}
-			?></b></span>
+				echo '</b></span>';
+			?>
 		</div>
 		<script>
 		</script>
