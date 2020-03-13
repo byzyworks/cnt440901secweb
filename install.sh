@@ -19,6 +19,16 @@ mysql -u root -p cnt440901secweb < cnt440901secweb.sql
 cp -rf etc/* /etc
 cp -rf var/* /var
 
+# Set the permissions for SSL files
+chmod 600 /etc/apache2/svr-key.key
+chmod 644 /etc/apache2/svr-crt.crt
+
+# Set the permissions for the server pepper
+groupadd www-special
+usermod -a -G www-special www-data
+chown root:www-special /etc/apache2/.phrase
+chmod 640 /etc/apache2/.phrase
+
 # Set the permissions for the web root to ensure anyone can access the website
 chmod 755 -R /var/www/html
 
@@ -33,4 +43,7 @@ a2enmod ssl
 a2enmod rewrite
 
 # Restart the web server to apply the changes
-service apache2 restart
+#service apache2 restart
+
+# Restart the server
+reboot

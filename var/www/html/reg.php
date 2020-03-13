@@ -64,9 +64,21 @@
 		exit;
 	}
 	
+	// Read the server-wide pepper
+	$pepper_file = '/etc/apache2/.phrase';
+	if (!is_readable($pepper_file))
+	{
+		header('HTTP/1.0 500 Internal Server Error');
+		die('500 Internal Server Error');
+	}
+	$f = fopen($pepper_file, 'r');
+	$pepper = fread($f, 24);
+	fclose($f);
+	
 	// Hash the new user's password
 	$cost = 12;
-	$hash = password_hash($form_passwd, PASSWORD_BCRYPT, ['cost' => $cost]);
+	$hash = hash_hmac('sha256', $form_passwd, $pepper);
+	$hash = password_hash($hash, PASSWORD_BCRYPT, ['cost' => $cost]);
 	
 	// Attempt to add the new user's credentials to the database
 	$stmt = $sql_conn->prepare("INSERT INTO $sql_table (uname, passwd) VALUES (?, ?)");

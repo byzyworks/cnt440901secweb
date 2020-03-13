@@ -51,10 +51,21 @@
 	// Check if user exists
 	if ($result->num_rows > 0)
 	{
+		// Read the server-wide pepper
+		$pepper_file = '/etc/apache2/.phrase';
+		if (!is_readable($pepper_file))
+		{
+			header('HTTP/1.0 500 Internal Server Error');
+			die('500 Internal Server Error');
+		}
+		$f = fopen($pepper_file, 'r');
+		$pepper = fread($f, 24);
+		fclose($f);
+		
 		while ($row = $result->fetch_assoc())
 		{
 			// Verify their password
-			if (password_verify($form_passwd, $row['passwd']))
+			if (password_verify(hash_hmac('sha256', $form_passwd, $pepper), $row['passwd']))
 			{
 				// Log the user in
 				$_SESSION['uname'] = $form_uname;
