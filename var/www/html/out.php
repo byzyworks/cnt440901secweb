@@ -2,8 +2,15 @@
 	session_start();
 
 	$page_home = $_SERVER['HTTP_HOST'];
-	$sesn_usr  = $_SESSION['uname'];
 	
+	// Load a cookie if it exists
+	$cookie_usr = $_COOKIE['uname'];
+	if (isset($cookie_usr))
+	{
+		setcookie('uname', '', time() - (86400 * 30), '/');
+	}
+	
+	$sesn_usr  = $_SESSION['uname'];
 	if (!isset($sesn_usr))
 	{
 		// Redirect the user if they're not logged in anyway

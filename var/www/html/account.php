@@ -4,7 +4,15 @@
 	$page_home = 'https://' . $_SERVER['HTTP_HOST'];
 	$page_curr = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$page_usr  = $_GET['user'];
-	$sesn_usr  = $_SESSION['uname'];
+	
+	// Load a cookie if it exists
+	$cookie_usr = $_COOKIE['uname'];
+	if (isset($cookie_usr))
+	{
+		$_SESSION['uname'] = $cookie_usr;
+	}
+	
+	$sesn_usr = $_SESSION['uname'];
 	
 	// Redirect users depending on if they're logged in or not
 	if (!isset($page_usr))

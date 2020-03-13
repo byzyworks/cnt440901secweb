@@ -3,7 +3,16 @@
     
 	$page_account = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
     $form_bio     = $_POST['bio'];
-	$sesn_usr     = $_SESSION['uname'];
+	
+	// Load a cookie if it exists
+	$cookie_usr = $_COOKIE['uname'];
+	if (isset($cookie_usr))
+	{
+		$_SESSION['uname'] = $cookie_usr;
+		$sesn_usr          = $_SESSION['uname'];
+	}
+
+	$sesn_usr = $_SESSION['uname'];
 
     // Redirect users if they opened this page through non-standard means
 	if (!isset($sesn_usr) || !isset($form_bio))

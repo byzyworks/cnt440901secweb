@@ -1,13 +1,21 @@
 <?php
 	session_start();
 
-	$page_account = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
-	$page_signin  = 'https://' . $_SERVER['HTTP_HOST'] . '/signin';
-	$form_uname   = $_POST['uname'];
-	$form_passwd  = $_POST['passwd'];
-	$sesn_usr     = $_SESSION['uname'];
+	$page_account  = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
+	$page_signin   = 'https://' . $_SERVER['HTTP_HOST'] . '/signin';
+	$form_uname    = $_POST['uname'];
+	$form_passwd   = $_POST['passwd'];
+	$form_remember = $_POST['remember'];
+	
+	// Load a cookie if it exists
+	$cookie_usr = $_COOKIE['uname'];
+	if (isset($cookie_usr))
+	{
+		$_SESSION['uname'] = $cookie_usr;
+	}
 	
 	// Redirect users if they opened this page through non-standard means
+	$sesn_usr = $_SESSION['uname'];
 	if (isset($sesn_usr))
 	{
 		header('Location: ' . $page_account);
@@ -50,6 +58,12 @@
 			{
 				// Log the user in
 				$_SESSION['uname'] = $form_uname;
+				
+				// Remember the user if they agreed to it
+				if (isset($form_remember))
+				{
+					setcookie('uname', $form_uname, time() + (86400 * 30), '/');
+				}
 				
 				// Forward the user to their account page
 				header('Location: ' . $page_account);

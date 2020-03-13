@@ -2,9 +2,16 @@
 	session_start();
 	
 	$page_account = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
-	$sesn_usr     = $_SESSION['uname'];
+	
+	// Load a cookie if it exists
+	$cookie_usr = $_COOKIE['uname'];
+	if (isset($cookie_usr))
+	{
+		$_SESSION['uname'] = $cookie_usr;
+	}
 	
 	// Redirect users if they opened this page through non-standard means
+	$sesn_usr = $_SESSION['uname'];
 	if (isset($sesn_usr))
 	{
 		header('Location: ' . $page_account);
