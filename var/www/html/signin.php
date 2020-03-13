@@ -1,5 +1,15 @@
 <?php
 	session_start();
+	
+	$page_account = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
+	$sesn_usr     = $_SESSION['uname'];
+	
+	// Redirect users if they opened this page through non-standard means
+	if (isset($sesn_usr))
+	{
+		header('Location: ' . $page_account);
+		exit;
+	}
 ?>
 
 <!doctype html>
@@ -13,11 +23,6 @@
 			{
 				font-family: courier;
 				font-size: 125%;
-			}
-			form
-			{
-				border: 3px solid #f1f1f1;
-				width: 800px;
 			}
 			input[type=text], input[type=password]
 			{
@@ -50,6 +55,8 @@
 			}
 			.container
 			{
+				border: 3px solid #f1f1f1;
+				width: 800px;
 				padding: 16px;
 			}
 		</style>
@@ -57,6 +64,10 @@
 		</script>
 	</head>
 	<body>
+		<div class="container">
+			<button onclick="window.location.href = '/';">Home</button>
+			<button onclick="window.location.href = 'signup';">Sign Up</button>
+		</div>
 		<form action="auth" method="post">
 			<div class="container">
 				<label for="uname"><b>Username</b></label>
