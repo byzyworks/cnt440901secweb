@@ -31,18 +31,10 @@
 		header('HTTP/1.0 500 Internal Server Error');
 		die('500 Internal Server Error');
 	}
-
-	// Query database for user (insecure)
-	/*
-	$sql_table = 'users';
-	$sql = 'SELECT hash FROM ' . $sql_table . ' WHERE uname=\'' . $form_uname . '\'';
-	$result = $sql_conn->query($sql);
-	$sql_conn->close();
-	*/
 	
 	// Query database for user
 	$sql_table = 'users';
-	$stmt = $sql_conn->prepare("SELECT hash FROM $sql_table WHERE uname = ?");
+	$stmt = $sql_conn->prepare("SELECT passwd FROM $sql_table WHERE uname = ?");
 	$stmt->bind_param('s', $form_uname);
 	$stmt->execute();
 	$result = $stmt->get_result();
@@ -54,7 +46,7 @@
 		while ($row = $result->fetch_assoc())
 		{
 			// Verify their password
-			if (password_verify($form_passwd, $row['hash']))
+			if (password_verify($form_passwd, $row['passwd']))
 			{
 				// Log the user in
 				$_SESSION['uname'] = $form_uname;

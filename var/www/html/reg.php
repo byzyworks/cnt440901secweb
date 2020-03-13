@@ -62,7 +62,7 @@
 	$hash = password_hash($form_passwd, PASSWORD_BCRYPT, ['cost' => $cost]);
 	
 	// Attempt to add the new user's credentials to the database
-	$stmt = $sql_conn->prepare("INSERT INTO $sql_table (uname, hash) VALUES (?, ?)");
+	$stmt = $sql_conn->prepare("INSERT INTO $sql_table (uname, passwd) VALUES (?, ?)");
 	$stmt->bind_param('ss', $form_uname, $hash);
 	$stmt->execute();
 	

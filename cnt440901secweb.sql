@@ -16,6 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Current Database: `cnt440901secweb`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `cnt440901secweb` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `cnt440901secweb`;
+
+--
 -- Table structure for table `users`
 --
 
@@ -24,10 +32,11 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  `uname` varchar(30) NOT NULL UNIQUE,
-  `hash` varchar(60) NOT NULL,
+  `uname` varchar(30) NOT NULL,
+  `passwd` varchar(60) NOT NULL,
   `bio` text,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uname` (`uname`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -37,34 +46,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'test','$2y$12$nC/sp2kZNZjofYDJhbULDutd1vhz0Fr5F7T2hGfvyK2X/qSr5sMNy',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users_insecure`
---
-
-DROP TABLE IF EXISTS `users_insecure`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users_insecure` (
-  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  `uname` varchar(30) NOT NULL UNIQUE,
-  `passwd` varchar(30) NOT NULL,
-  `bio` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users_insecure`
---
-
-LOCK TABLES `users_insecure` WRITE;
-/*!40000 ALTER TABLE `users_insecure` DISABLE KEYS */;
-INSERT INTO `users_insecure` VALUES (1,'test','password',NULL);
-/*!40000 ALTER TABLE `users_insecure` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -76,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-03 18:58:55
+-- Dump completed on 2020-03-12 20:00:20
