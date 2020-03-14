@@ -56,7 +56,6 @@
 			}
 			.borderless_container
 			{
-				width: 800px;
 				padding: 16px;
 				font-size: 100%;
 			}
@@ -65,7 +64,11 @@
 				border: 3px solid #f1f1f1;
 				width: 800px;
 				padding: 16px;
-			} 
+			}
+			form
+            {
+                font-size: inherit;
+            }
 		</style>
 		<script>
 		</script>

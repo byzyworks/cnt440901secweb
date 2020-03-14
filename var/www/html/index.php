@@ -48,8 +48,8 @@
 			}
 			.borderless_container
 			{
-				width: 800px;
 				padding: 16px;
+				font-size: 100%;
 			}
 			.container
 			{
