@@ -22,7 +22,7 @@
 			header('Location: ' . $page_home);
 			exit;
 		}
-		header('Location: ' . $page_curr . '?user=' . $sesn_usr);
+		header('Location: ' . $page_curr . '/' . $sesn_usr);
 		exit;
 	}
 	
@@ -198,14 +198,14 @@
 				{
 					if ($page_usr != $sesn_usr)
 					{
-						echo '<button onclick="window.location.href = \'account\';">Account</button>';
+						echo '<button onclick="window.location.href = \'/account\';">Account</button>';
 					}
-					echo '<button onclick="window.location.href = \'out\';">Logout</button>';
+					echo '<button onclick="window.location.href = \'/out\';">Logout</button>';
 				}
 				else
 				{
-					echo '<button onclick="window.location.href = \'signup\';">Sign Up</button>';
-					echo '<button onclick="window.location.href = \'signin\';">Sign In</button>';
+					echo '<button onclick="window.location.href = \'/signup\';">Sign Up</button>';
+					echo '<button onclick="window.location.href = \'/signin\';">Sign In</button>';
 				}
 			?>
 		</div>

@@ -76,7 +76,7 @@
 	<body>
 		<div class="container">
 			<button onclick="window.location.href = '/';">Home</button>
-			<button onclick="window.location.href = 'signin';">Sign In</button>
+			<button onclick="window.location.href = '/signin';">Sign In</button>
 		</div>
 		<form action="reg" method="post">
 			<div class="container">
