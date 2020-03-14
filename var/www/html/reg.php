@@ -35,6 +35,13 @@
 		header('Location: ' . $page_signup);
 		exit;
 	}
+	
+	if (strlen($form_passwd) < 12 || !preg_match('/[A-Z]/', $form_passwd) || !preg_match('/[a-z]/', $form_passwd) || !preg_match('/[0-9]/', $form_passwd))
+	{
+		$_SESSION['error'] = 'Passwords must:<br>- Be at least 12 characters in length.<br>- Contain at least 1 uppercase letter A-Z.<br>- Contain at least 1 lowercase letter a-z.<br>- Contain at least 1 number 0-9.';
+		header('Location: ' . $page_signup);
+		exit;
+	}
 
 	$sql_server = 'localhost';
 	$sql_uname  = 'web-user';
