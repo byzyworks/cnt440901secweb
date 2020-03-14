@@ -149,7 +149,7 @@
 					innerHTML += '<textarea id="bio_ctnt_new" name="bio" form="bio_form">';
 					innerHTML += this.bio_ctnt;
 					innerHTML += '</textarea>';
-                    innerHTML += '<form id="bio_form" action="updatebio" method="post">';
+                    innerHTML += '<form id="bio_form" action="/updatebio" method="post">';
 					innerHTML += '<button type="submit">Save</button>';
                     innerHTML += '</form>';
 					innerHTML += '<button onclick="resetBio()">Cancel</button>';

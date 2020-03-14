@@ -78,7 +78,7 @@
 			<button onclick="window.location.href = '/';">Home</button>
 			<button onclick="window.location.href = '/signup';">Sign Up</button>
 		</div>
-		<form action="auth" method="post">
+		<form action="/auth" method="post">
 			<div class="container">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" placeholder="Enter Username" name="uname" required>
