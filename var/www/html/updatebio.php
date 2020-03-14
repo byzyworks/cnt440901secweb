@@ -2,7 +2,7 @@
     session_start();
     
 	$page_account = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
-    $form_bio     = $_POST['bio'];
+    $form_bio     = htmlspecialchars($_POST['bio'], ENT_QUOTES, 'UTF-8');
 	
 	// Load a cookie if it exists
 	$cookie_usr = $_COOKIE['uname'];
