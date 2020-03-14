@@ -36,9 +36,10 @@
 		exit;
 	}
 	
-	if (strlen($form_passwd) < 12 || !preg_match('/[A-Z]/', $form_passwd) || !preg_match('/[a-z]/', $form_passwd) || !preg_match('/[0-9]/', $form_passwd))
+	$password_min_len = 12;
+	if (strlen($form_passwd) < $password_min_len || !preg_match('/[A-Z]/', $form_passwd) || !preg_match('/[a-z]/', $form_passwd) || !preg_match('/[0-9]/', $form_passwd))
 	{
-		$_SESSION['error'] = 'Passwords must:<br>- Be at least 12 characters in length.<br>- Contain at least 1 uppercase letter A-Z.<br>- Contain at least 1 lowercase letter a-z.<br>- Contain at least 1 number 0-9.';
+		$_SESSION['error'] = 'Passwords must:<br>- Be at least ' . $password_min_len . ' characters in length.<br>- Contain at least 1 uppercase letter A-Z.<br>- Contain at least 1 lowercase letter a-z.<br>- Contain at least 1 number 0-9.';
 		header('Location: ' . $page_signup);
 		exit;
 	}
@@ -52,7 +53,7 @@
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
 	if ($sql_conn->connect_error)
 	{
-		header('HTTP/1.0 500 Internal Server Error');
+		header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 		die('500 Internal Server Error');
 	}
 	
@@ -75,7 +76,7 @@
 	$pepper_file = '/etc/apache2/.phrase';
 	if (!is_readable($pepper_file))
 	{
-		header('HTTP/1.0 500 Internal Server Error');
+		header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 		die('500 Internal Server Error');
 	}
 	$f = fopen($pepper_file, 'r');

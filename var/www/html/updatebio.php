@@ -30,7 +30,7 @@
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
 	if ($sql_conn->connect_error)
 	{
-		header('HTTP/1.0 500 Internal Server Error');
+		header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 		die('500 Internal Server Error');
 	}
 	
