@@ -47,9 +47,9 @@
 	$result = $stmt->get_result();
 	$sql_conn->close();
 	
-	// Read the user's bio
 	if ($result->num_rows > 0)
 	{
+		// Read the user's bio
 		while ($row = $result->fetch_assoc())
 		{
 			if (isset($row['bio']))
@@ -57,6 +57,12 @@
 				$page_bio = $row['bio'];
 			}
 		}
+	}
+	else
+	{
+		// Throw 404 if user goes to user page for non-existing user
+		header('HTTP/1.0 404 Not Found');
+		die('404 Not Found');
 	}
 ?>
 
