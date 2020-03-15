@@ -97,14 +97,26 @@
 			{
 				$sesn_err = $_SESSION['error'];
 				
-				echo '<div class="borderless_container">';
-				echo '<span><b>' . $sesn_err . '</b></span>';
-				echo '</div>';
+				if (isset($sesn_err))
+				{
+					echo '<div class="borderless_container">';
+					echo '<span><b>' . $sesn_err . '</b></span>';
+					echo '</div>';
+				}
 				
 				session_unset();
 				session_destroy();
 			}
 		?>
+		<div class="borderless_container">
+			<section>
+				<span>Passwords must:</span><br>
+				<span>- Be at least 12 characters in length.</span><br>
+				<span>- Contain at least 1 uppercase letter A-Z.</span><br>
+				<span>- Contain at least 1 lowercase letter a-z.</span><br>
+				<span>- Contain at least 1 number 0-9.</span>
+			</section>
+		</div>
 		<script>
 		</script>
 	</body>

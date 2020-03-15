@@ -73,7 +73,7 @@
 				// Remember the user if they agreed to it
 				if (isset($form_remember))
 				{
-					setcookie('uname', $form_uname, time() + (86400 * 30), '/', isset($_SERVER["HTTPS"]), true);
+					setcookie('uname', $form_uname, time() + (86400 * 30), '/', isset($_SERVER['HTTPS']), true);
 				}
 				
 				// Forward the user to their account page

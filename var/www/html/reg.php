@@ -39,7 +39,7 @@
 	$password_min_len = 12;
 	if (strlen($form_passwd) < $password_min_len || !preg_match('/[A-Z]/', $form_passwd) || !preg_match('/[a-z]/', $form_passwd) || !preg_match('/[0-9]/', $form_passwd))
 	{
-		$_SESSION['error'] = 'Passwords must:<br>- Be at least ' . $password_min_len . ' characters in length.<br>- Contain at least 1 uppercase letter A-Z.<br>- Contain at least 1 lowercase letter a-z.<br>- Contain at least 1 number 0-9.';
+		$_SESSION['error'] = 'Your password does not follow the rules below.';
 		header('Location: ' . $page_signup);
 		exit;
 	}
