@@ -98,9 +98,12 @@
 			{
 				$sesn_err = $_SESSION['error'];
 				
-				echo '<div class="borderless_container">';
-				echo '<span><b>' . $sesn_err . '</b></span>';
-				echo '</div>';
+				if (isset($sesn_err))
+				{
+					echo '<div class="borderless_container">';
+					echo '<span><b>' . $sesn_err . '</b></span>';
+					echo '</div>';
+				}
 				
 				session_unset();
 				session_destroy();

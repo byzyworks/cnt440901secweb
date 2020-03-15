@@ -111,10 +111,10 @@
 		<div class="borderless_container">
 			<section>
 				<span>Passwords must:</span><br>
-				<span>- Be at least 12 characters in length.</span><br>
-				<span>- Contain at least 1 uppercase letter A-Z.</span><br>
-				<span>- Contain at least 1 lowercase letter a-z.</span><br>
-				<span>- Contain at least 1 number 0-9.</span>
+				<span>- Have at least 12 characters.</span><br>
+				<span>- Have at least 1 uppercase letter A-Z.</span><br>
+				<span>- Have at least 1 lowercase letter a-z.</span><br>
+				<span>- Have at least 1 digit 0-9.</span>
 			</section>
 		</div>
 		<script>
