@@ -1,7 +1,7 @@
 <?php
 	session_start();
 
-	$page_home = $_SERVER['HTTP_HOST'];
+	$page_home = 'http://' . $_SERVER['HTTP_HOST'];
 	
 	// Load a cookie if it exists
 	$cookie_usr = $_COOKIE['uname'];

@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	
-	$page_account = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
+	$page_account = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
 	
 	// Load a cookie if it exists
 	$cookie_usr = $_COOKIE['uname'];
@@ -76,9 +76,9 @@
 	<body>
 		<div class="container">
 			<button onclick="window.location.href = '/';">Home</button>
-			<button onclick="window.location.href = '/signup';">Sign Up</button>
+			<button onclick="window.location.href = '/signup.php';">Sign Up</button>
 		</div>
-		<form action="/auth" method="post">
+		<form action="/auth.php" method="post">
 			<div class="container">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" placeholder="Enter Username" name="uname" required>
@@ -92,7 +92,7 @@
 		</form>
 		<?php
 			$page_last = $_SERVER['HTTP_REFERER'];
-			$page_curr = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$page_curr = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			
 			if ($page_curr == $page_last)
 			{

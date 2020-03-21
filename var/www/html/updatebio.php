@@ -1,8 +1,8 @@
 <?php
     session_start();
     
-	$page_account = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
-    $form_bio     = htmlspecialchars($_POST['bio'], ENT_QUOTES, 'UTF-8');
+	$page_account = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
+    $form_bio     = $_POST['bio'];
 	
 	// Load a cookie if it exists
 	$cookie_usr = $_COOKIE['uname'];
@@ -22,7 +22,7 @@
 	}
 	
 	$sql_server = 'localhost';
-	$sql_uname  = 'web-user';
+	$sql_uname  = 'root';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
 	
@@ -36,9 +36,8 @@
 	
 	// Update the user's bio
 	$sql_table = 'users';
-	$stmt = $sql_conn->prepare("UPDATE $sql_table SET bio = ? WHERE uname = '$sesn_usr'");
-	$stmt->bind_param('s', $form_bio);
-	$stmt->execute();
+	$sql_query = "UPDATE $sql_table SET bio = '$form_bio' WHERE uname = '$sesn_usr'";
+	$sql_conn->query($sql_query);
     $sql_conn->close();
 	
 	// Refresh the page the user was on

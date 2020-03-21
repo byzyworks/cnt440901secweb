@@ -1,9 +1,9 @@
 <?php
 	session_start();
 
-	$page_account     = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
-	$page_signup      = 'https://' . $_SERVER['HTTP_HOST'] . '/signup';
-	$page_signin      = 'https://' . $_SERVER['HTTP_HOST'] . '/signin';
+	$page_account     = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
+	$page_signup      = 'http://' . $_SERVER['HTTP_HOST'] . '/signup.php';
+	$page_signin      = 'http://' . $_SERVER['HTTP_HOST'] . '/signin.php';
 	$form_uname       = $_POST['uname'];
 	$form_passwd      = $_POST['passwd'];
 	$form_passwd_conf = $_POST['passwd_conf'];
@@ -35,17 +35,9 @@
 		header('Location: ' . $page_signup);
 		exit;
 	}
-	
-	$password_min_len = 12;
-	if (strlen($form_passwd) < $password_min_len || !preg_match('/[A-Z]/', $form_passwd) || !preg_match('/[a-z]/', $form_passwd) || !preg_match('/[0-9]/', $form_passwd))
-	{
-		$_SESSION['error'] = 'Your password does not follow the rules below.';
-		header('Location: ' . $page_signup);
-		exit;
-	}
 
 	$sql_server = 'localhost';
-	$sql_uname  = 'web-user';
+	$sql_uname  = 'root';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
 
@@ -59,10 +51,8 @@
 	
 	// Query database to see if user already exists
 	$sql_table = 'users';
-	$stmt = $sql_conn->prepare("SELECT uname FROM $sql_table WHERE uname = ?");
-	$stmt->bind_param('s', $form_uname);
-	$stmt->execute();
-	$result = $stmt->get_result();
+	$sql_query = "SELECT uname FROM $sql_table WHERE uname = '$form_uname'";
+	$result = $sql_conn->query($sql_query);
 	
 	// Stop account creation if so
 	if ($result->num_rows > 0)
@@ -72,26 +62,9 @@
 		exit;
 	}
 	
-	// Read the server-wide pepper
-	$pepper_file = '/etc/apache2/.phrase';
-	if (!is_readable($pepper_file))
-	{
-		header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-		die('500 Internal Server Error');
-	}
-	$f = fopen($pepper_file, 'r');
-	$pepper = fread($f, 24);
-	fclose($f);
-	
-	// Hash the new user's password
-	$cost = 12;
-	$hash = hash_hmac('sha256', $form_passwd, $pepper);
-	$hash = password_hash($hash, PASSWORD_BCRYPT, ['cost' => $cost]);
-	
 	// Attempt to add the new user's credentials to the database
-	$stmt = $sql_conn->prepare("INSERT INTO $sql_table (uname, passwd) VALUES (?, ?)");
-	$stmt->bind_param('ss', $form_uname, $hash);
-	$stmt->execute();
+	$sql_query = "INSERT INTO $sql_table (uname, passwd) VALUES ('$form_uname', '$form_passwd')";
+	$sql_conn->query($sql_query);
 	
 	// Close the connection to MySQL
 	$sql_conn->close();

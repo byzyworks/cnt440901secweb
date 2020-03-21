@@ -1,8 +1,8 @@
 <?php
 	session_start();
 	
-	$page_home = 'https://' . $_SERVER['HTTP_HOST'];
-	$page_curr = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$page_home = 'http://' . $_SERVER['HTTP_HOST'];
+	$page_curr = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$page_usr  = $_GET['user'];
 	
 	// Load a cookie if it exists
@@ -22,12 +22,12 @@
 			header('Location: ' . $page_home);
 			exit;
 		}
-		header('Location: ' . $page_curr . '/' . $sesn_usr);
+		header('Location: ' . $page_curr . '?user=' . $sesn_usr);
 		exit;
 	}
 	
 	$sql_server = 'localhost';
-	$sql_uname  = 'web-user';
+	$sql_uname  = 'root';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
 	
@@ -41,10 +41,8 @@
 	
 	// Extract bio from user profile
 	$sql_table = 'users';
-	$stmt = $sql_conn->prepare("SELECT bio FROM $sql_table WHERE uname = ?");
-	$stmt->bind_param('s', $page_usr);
-	$stmt->execute();
-	$result = $stmt->get_result();
+	$sql_query = "SELECT bio FROM $sql_table WHERE uname = '$page_usr'";
+	$result = $sql_conn->query($sql_query);
 	$sql_conn->close();
 	
 	if ($result->num_rows > 0)
@@ -149,7 +147,7 @@
 					innerHTML += '<textarea id="bio_ctnt_new" name="bio" form="bio_form">';
 					innerHTML += this.bio_ctnt;
 					innerHTML += '</textarea>';
-                    innerHTML += '<form id="bio_form" action="/updatebio" method="post">';
+                    innerHTML += '<form id="bio_form" action="/updatebio.php" method="post">';
 					innerHTML += '<button type="submit">Save</button>';
                     innerHTML += '</form>';
 					innerHTML += '<button onclick="resetBio()">Cancel</button>';
@@ -198,14 +196,14 @@
 				{
 					if ($page_usr != $sesn_usr)
 					{
-						echo '<button onclick="window.location.href = \'/account\';">Account</button>';
+						echo '<button onclick="window.location.href = \'/account.php\';">Account</button>';
 					}
-					echo '<button onclick="window.location.href = \'/out\';">Logout</button>';
+					echo '<button onclick="window.location.href = \'/out.php\';">Logout</button>';
 				}
 				else
 				{
-					echo '<button onclick="window.location.href = \'/signup\';">Sign Up</button>';
-					echo '<button onclick="window.location.href = \'/signin\';">Sign In</button>';
+					echo '<button onclick="window.location.href = \'/signup.php\';">Sign Up</button>';
+					echo '<button onclick="window.location.href = \'/signin.php\';">Sign In</button>';
 				}
 			?>
 		</div>

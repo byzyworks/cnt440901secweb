@@ -1,8 +1,8 @@
 <?php
 	session_start();
 
-	$page_account  = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
-	$page_signin   = 'https://' . $_SERVER['HTTP_HOST'] . '/signin';
+	$page_account  = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
+	$page_signin   = 'http://' . $_SERVER['HTTP_HOST'] . '/signin.php';
 	$form_uname    = $_POST['uname'];
 	$form_passwd   = $_POST['passwd'];
 	$form_remember = $_POST['remember'];
@@ -28,7 +28,7 @@
 	}
 
 	$sql_server = 'localhost';
-	$sql_uname  = 'web-user';
+	$sql_uname  = 'root';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
 
@@ -42,44 +42,27 @@
 	
 	// Query database for user
 	$sql_table = 'users';
-	$stmt = $sql_conn->prepare("SELECT passwd FROM $sql_table WHERE uname = ?");
-	$stmt->bind_param('s', $form_uname);
-	$stmt->execute();
-	$result = $stmt->get_result();
+	$sql_query = "SELECT passwd FROM $sql_table WHERE uname = '$form_uname' AND passwd = '$form_passwd'";
+	$result = $sql_conn->query($sql_query);
 	$sql_conn->close();
 	
 	// Check if user exists
 	if ($result->num_rows > 0)
 	{
-		// Read the server-wide pepper
-		$pepper_file = '/etc/apache2/.phrase';
-		if (!is_readable($pepper_file))
-		{
-			header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-			die('500 Internal Server Error');
-		}
-		$f = fopen($pepper_file, 'r');
-		$pepper = fread($f, 24);
-		fclose($f);
-		
 		while ($row = $result->fetch_assoc())
 		{
-			// Verify their password
-			if (password_verify(hash_hmac('sha256', $form_passwd, $pepper), $row['passwd']))
+			// Log the user in
+			$_SESSION['uname'] = $form_uname;
+			
+			// Remember the user if they agreed to it
+			if (isset($form_remember))
 			{
-				// Log the user in
-				$_SESSION['uname'] = $form_uname;
-				
-				// Remember the user if they agreed to it
-				if (isset($form_remember))
-				{
-					setcookie('uname', $form_uname, time() + (86400 * 30), '/', isset($_SERVER['HTTPS']), true);
-				}
-				
-				// Forward the user to their account page
-				header('Location: ' . $page_account);
-				exit;
+				setcookie('uname', $form_uname, time() + (86400 * 30), '/');
 			}
+			
+			// Forward the user to their account page
+			header('Location: ' . $page_account);
+			exit;
 		}
 	}
 

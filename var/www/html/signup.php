@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	
-	$page_account = 'https://' . $_SERVER['HTTP_HOST'] . '/account';
+	$page_account = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
 	
 	// Load a cookie if it exists
 	$cookie_usr = $_COOKIE['uname'];
@@ -76,9 +76,9 @@
 	<body>
 		<div class="container">
 			<button onclick="window.location.href = '/';">Home</button>
-			<button onclick="window.location.href = '/signin';">Sign In</button>
+			<button onclick="window.location.href = '/signin.php';">Sign In</button>
 		</div>
-		<form action="/reg" method="post">
+		<form action="/reg.php" method="post">
 			<div class="container">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" placeholder="Enter Username" name="uname" required>
@@ -91,7 +91,7 @@
 		</form>
 		<?php
 			$page_last = $_SERVER['HTTP_REFERER'];
-			$page_curr = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$page_curr = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			
 			if ($page_curr == $page_last)
 			{
@@ -108,15 +108,6 @@
 				session_destroy();
 			}
 		?>
-		<div class="borderless_container">
-			<section>
-				<span>Passwords must:</span><br>
-				<span>- Have at least 12 characters.</span><br>
-				<span>- Have at least 1 uppercase letter A-Z.</span><br>
-				<span>- Have at least 1 lowercase letter a-z.</span><br>
-				<span>- Have at least 1 digit 0-9.</span>
-			</section>
-		</div>
 		<script>
 		</script>
 	</body>

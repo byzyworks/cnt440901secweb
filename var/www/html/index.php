@@ -66,13 +66,13 @@
 			<?php
 				if (!isset($sesn_usr))
 				{
-					echo '<button onclick="window.location.href = \'/signup\';">Sign Up</button>';
-					echo '<button onclick="window.location.href = \'/signin\';">Sign In</button>';
+					echo '<button onclick="window.location.href = \'/signup.php\';">Sign Up</button>';
+					echo '<button onclick="window.location.href = \'/signin.php\';">Sign In</button>';
 				}
 				else
 				{
-					echo '<button onclick="window.location.href = \'/account\';">Account</button>';
-					echo '<button onclick="window.location.href = \'/out\';">Logout</button>';
+					echo '<button onclick="window.location.href = \'/account.php?user=' . $sesn_usr . '\';">Account</button>';
+					echo '<button onclick="window.location.href = \'/out.php\';">Logout</button>';
 				}
 			?>
 		</div>
