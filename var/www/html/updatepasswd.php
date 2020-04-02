@@ -25,7 +25,7 @@
 	}
 	if (!isset($form_passwd_old))
 	{
-		header('Location: ' . $page_account);
+		header('Location: ' . $page_reset);
 		exit;
 	}
 	
