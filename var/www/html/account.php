@@ -30,6 +30,7 @@
 	$sql_uname  = 'web-user';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
+	$sql_table  = 'users';
 	
 	// Create a connection to MySQL
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
@@ -40,7 +41,6 @@
 	}
 	
 	// Extract bio from user profile
-	$sql_table = 'users';
 	$stmt = $sql_conn->prepare("SELECT bio FROM $sql_table WHERE uname = ?");
 	$stmt->bind_param('s', $page_usr);
 	$stmt->execute();
@@ -199,6 +199,10 @@
 					if ($page_usr != $sesn_usr)
 					{
 						echo '<button onclick="window.location.href = \'/account\';">Account</button>';
+					}
+					else
+					{
+						echo '<button onclick="window.location.href = \'/reset\';">Change Password</button>';
 					}
 					echo '<button onclick="window.location.href = \'/out\';">Logout</button>';
 				}

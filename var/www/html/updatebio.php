@@ -25,6 +25,7 @@
 	$sql_uname  = 'web-user';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
+	$sql_table  = 'users';
 	
 	// Create a connection to MySQL
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
@@ -35,15 +36,13 @@
 	}
 	
 	// Update the user's bio
-	$sql_table = 'users';
 	$stmt = $sql_conn->prepare("UPDATE $sql_table SET bio = ? WHERE uname = '$sesn_usr'");
 	$stmt->bind_param('s', $form_bio);
 	$stmt->execute();
     $sql_conn->close();
 	
-	// Refresh the page the user was on
-	$page_last = $_SERVER['HTTP_REFERER'];
-    header('Location: ' . $page_last);
+	// Refresh the user's account page
+    header('Location: ' . $page_account);
 	exit;
 ?>
 

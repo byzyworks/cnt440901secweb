@@ -14,8 +14,9 @@
 		$_SESSION['uname'] = $cookie_usr;
 	}
 	
-	// Redirect users if they opened this page through non-standard means
 	$sesn_usr = $_SESSION['uname'];
+	
+	// Redirect users if they opened this page through non-standard means
 	if (isset($sesn_usr))
 	{
 		header('Location: ' . $page_account);
@@ -31,6 +32,7 @@
 	$sql_uname  = 'web-user';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
+	$sql_table  = 'users';
 
 	// Create a connection to MySQL
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
@@ -41,7 +43,6 @@
 	}
 	
 	// Query database for user
-	$sql_table = 'users';
 	$stmt = $sql_conn->prepare("SELECT passwd FROM $sql_table WHERE uname = ?");
 	$stmt->bind_param('s', $form_uname);
 	$stmt->execute();

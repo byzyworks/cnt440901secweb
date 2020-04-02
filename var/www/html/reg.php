@@ -15,8 +15,9 @@
 		$_SESSION['uname'] = $cookie_usr;
 	}
 
-	// Redirect users if they opened this page through non-standard means
 	$sesn_usr = $_SESSION['uname'];
+
+	// Redirect users if they opened this page through non-standard means
 	if (isset($sesn_usr))
 	{
 		header('Location: ' . $page_account);
@@ -36,6 +37,7 @@
 		exit;
 	}
 	
+	// Stop account creation if the password doesn't follow policy
 	$password_min_len = 12;
 	if (strlen($form_passwd) < $password_min_len || !preg_match('/[A-Z]/', $form_passwd) || !preg_match('/[a-z]/', $form_passwd) || !preg_match('/[0-9]/', $form_passwd))
 	{
@@ -48,6 +50,7 @@
 	$sql_uname  = 'web-user';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
+	$sql_table  = 'users';
 
 	// Create a connection to MySQL
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
@@ -58,7 +61,6 @@
 	}
 	
 	// Query database to see if user already exists
-	$sql_table = 'users';
 	$stmt = $sql_conn->prepare("SELECT uname FROM $sql_table WHERE uname = ?");
 	$stmt->bind_param('s', $form_uname);
 	$stmt->execute();
@@ -96,7 +98,7 @@
 	// Close the connection to MySQL
 	$sql_conn->close();
 
-	// Forward the user to their account page
+	// Forward the user to the sign-in page
 	header('Location: ' . $page_signin);
 	exit;
 ?>

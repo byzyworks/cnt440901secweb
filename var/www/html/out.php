@@ -2,6 +2,7 @@
 	session_start();
 
 	$page_home = 'https://' . $_SERVER['HTTP_HOST'];
+	$page_last = $_SERVER['HTTP_REFERER'];
 	
 	// Load a cookie if it exists
 	$cookie_usr = $_COOKIE['uname'];
@@ -11,6 +12,7 @@
 	}
 	
 	$sesn_usr  = $_SESSION['uname'];
+	
 	if (!isset($sesn_usr))
 	{
 		// Redirect the user if they're not logged in anyway
@@ -25,7 +27,6 @@
 	}
 
 	// Refresh the page the user was on
-	$page_last = $_SERVER['HTTP_REFERER'];
 	header('Location: ' . $page_last);
 	exit;
 ?>
