@@ -86,6 +86,9 @@
 				echo '</b></span>';
 			?>
 		</div>
+		<div class="container">
+			<img src="/img.php?img=welcome.jpg" style="max-width:100%;"/>
+		</div>
 		<script>
 		</script>
 	</body>
