@@ -1,3 +1,4 @@
 <?php
-	readfile("../images/" . $_GET['img']);
+	header('Content-Type: image/jpg');
+	readfile('../images/' . $_GET['img']);
 ?>
