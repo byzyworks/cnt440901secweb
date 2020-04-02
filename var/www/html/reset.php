@@ -1,9 +1,9 @@
 <?php
 	session_start();
 	
-	$page_account = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
-	$page_curr    = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	$page_last    = $_SERVER['HTTP_REFERER'];
+	$page_home = 'http://' . $_SERVER['HTTP_HOST'];
+	$page_curr = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$page_last = $_SERVER['HTTP_REFERER'];
 	
 	// Load a cookie if it exists
 	$cookie_usr = $_COOKIE['uname'];
@@ -15,9 +15,9 @@
 	$sesn_usr = $_SESSION['uname'];
 	
 	// Redirect users if they opened this page through non-standard means
-	if (isset($sesn_usr))
+	if (!isset($sesn_usr))
 	{
-		header('Location: ' . $page_account);
+		header('Location: ' . $page_home);
 		exit;
 	}
 ?>
@@ -79,17 +79,18 @@
 	<body>
 		<div class="container">
 			<button onclick="window.location.href = '/';">Home</button>
-			<button onclick="window.location.href = '/signin.php';">Sign In</button>
+			<button onclick="window.location.href = '/account.php';">Account</button>
+			<button onclick="window.location.href = '/out.php';">Logout</button>
 		</div>
-		<form action="/reg.php" method="post">
+		<form action="/updatepasswd.php" method="post">
 			<div class="container">
-				<label for="uname"><b>Username</b></label>
-				<input type="text" placeholder="Enter Username" name="uname" required>
-				<label for="passwd"><b>Password</b></label>
-				<input type="password" placeholder="Enter Password" name="passwd" required>
-				<label for="passwd_conf"><b>Confirm Password</b></label>
-				<input type="password" placeholder="Enter Password" name="passwd_conf" required>
-				<button type="submit">Register</button>
+				<label for="passwd_old"><b>Old Password</b></label>
+				<input type="password" placeholder="Enter Old Password" name="passwd_old" required>
+				<label for="passwd_new"><b>New Password</b></label>
+				<input type="password" placeholder="Enter New Password" name="passwd_new" required>
+				<label for="passwd_new_conf"><b>Confirm New Password</b></label>
+				<input type="password" placeholder="Enter New Password" name="passwd_new_conf" required>
+				<button type="submit">Change Password</button>
 			</div>
 		</form>
 		<?php

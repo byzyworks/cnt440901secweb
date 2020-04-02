@@ -2,6 +2,8 @@
 	session_start();
 	
 	$page_account = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
+	$page_curr    = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$page_last    = $_SERVER['HTTP_REFERER'];
 	
 	// Load a cookie if it exists
 	$cookie_usr = $_COOKIE['uname'];
@@ -10,8 +12,9 @@
 		$_SESSION['uname'] = $cookie_usr;
 	}
 	
-	// Redirect users if they opened this page through non-standard means
 	$sesn_usr = $_SESSION['uname'];
+	
+	// Redirect users if they opened this page through non-standard means
 	if (isset($sesn_usr))
 	{
 		header('Location: ' . $page_account);
@@ -91,9 +94,6 @@
 			</div>
 		</form>
 		<?php
-			$page_last = $_SERVER['HTTP_REFERER'];
-			$page_curr = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			
 			if ($page_curr == $page_last)
 			{
 				$sesn_err = $_SESSION['error'];
@@ -104,9 +104,6 @@
 					echo '<span><b>' . $sesn_err . '</b></span>';
 					echo '</div>';
 				}
-				
-				session_unset();
-				session_destroy();
 			}
 		?>
 		<script>

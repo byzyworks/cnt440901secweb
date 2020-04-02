@@ -198,6 +198,10 @@
 					{
 						echo '<button onclick="window.location.href = \'/account.php\';">Account</button>';
 					}
+					else
+					{
+						echo '<button onclick="window.location.href = \'/reset.php\';">Change Password</button>';
+					}
 					echo '<button onclick="window.location.href = \'/out.php\';">Logout</button>';
 				}
 				else

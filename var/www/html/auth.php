@@ -14,8 +14,9 @@
 		$_SESSION['uname'] = $cookie_usr;
 	}
 	
-	// Redirect users if they opened this page through non-standard means
 	$sesn_usr = $_SESSION['uname'];
+	
+	// Redirect users if they opened this page through non-standard means
 	if (isset($sesn_usr))
 	{
 		header('Location: ' . $page_account);
