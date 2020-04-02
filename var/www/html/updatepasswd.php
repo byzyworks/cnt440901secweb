@@ -4,7 +4,6 @@
 	$page_home            = 'http://' . $_SERVER['HTTP_HOST'];
 	$page_account         = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
 	$page_reset           = 'http://' . $_SERVER['HTTP_HOST'] . '/reset.php';
-	$page_last            = $_SERVER['HTTP_REFERER'];
     $form_passwd_old      = $_POST['passwd_old'];
 	$form_passwd_new      = $_POST['passwd_new'];
 	$form_passwd_new_conf = $_POST['passwd_new_conf'];
@@ -86,7 +85,7 @@
 	
 	// If the user doesn't enter their old password correctly...
 	$_SESSION['error'] = 'Old password is incorrect.';
-    header('Location: ' . $page_last);
+    header('Location: ' . $page_reset);
 	exit;
 ?>
 

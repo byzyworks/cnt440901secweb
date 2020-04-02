@@ -70,7 +70,7 @@
 	// Close the connection to MySQL
 	$sql_conn->close();
 
-	// Forward the user to their account page
+	// Forward the user to the sign-in page
 	header('Location: ' . $page_signin);
 	exit;
 ?>

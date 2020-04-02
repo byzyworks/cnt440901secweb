@@ -2,7 +2,6 @@
     session_start();
     
 	$page_account = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
-	$page_last    = $_SERVER['HTTP_REFERER'];
     $form_bio     = $_POST['bio'];
 	
 	// Load a cookie if it exists
@@ -41,8 +40,8 @@
 	$sql_conn->query($sql_query);
     $sql_conn->close();
 	
-	// Refresh the page the user was on
-    header('Location: ' . $page_last);
+	// Refresh the user's account page
+    header('Location: ' . $page_account);
 	exit;
 ?>
 
