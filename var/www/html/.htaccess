@@ -13,6 +13,10 @@ RewriteRule ^account/(.*)$ account.php?user=$1
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^images/(.*)$ img.php?img=$1
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)\.html$ $1.php [NC,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f

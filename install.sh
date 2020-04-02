@@ -30,7 +30,7 @@ chown root:www-special /etc/apache2/.phrase
 chmod 640 /etc/apache2/.phrase
 
 # Set the permissions for the web root to ensure anyone can access the website
-chmod 755 -R /var/www/html
+chmod 755 -R /var/www
 
 # Create a symbolic link to the HTTPS site in sites-enabled for it to become available
 ln -s /etc/apache2/sites-available/000-default-ssl.conf /etc/apache2/sites-enabled/000-default-ssl.conf
