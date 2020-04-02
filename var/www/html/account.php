@@ -30,6 +30,7 @@
 	$sql_uname  = 'root';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
+	$sql_table  = 'users';
 	
 	// Create a connection to MySQL
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
@@ -40,7 +41,6 @@
 	}
 	
 	// Extract bio from user profile
-	$sql_table = 'users';
 	$sql_query = "SELECT bio FROM $sql_table WHERE uname = '$page_usr'";
 	$result = $sql_conn->query($sql_query);
 	$sql_conn->close();

@@ -34,6 +34,7 @@
 	$sql_uname  = 'root';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
+	$sql_table  = 'users';
 	
 	// Create a connection to MySQL
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
@@ -44,7 +45,6 @@
 	}
 	
 	// Query database for user
-	$sql_table = 'users';
 	$sql_query = "SELECT passwd FROM $sql_table WHERE uname = '$sesn_usr' AND passwd = '$form_passwd_old'";
 	$result = $sql_conn->query($sql_query);
 	
@@ -72,9 +72,10 @@
 			}
 			
 			// Update the user's password
-			$sql_table = 'users';
 			$sql_query = "UPDATE $sql_table SET passwd = '$form_passwd_new' WHERE uname = '$sesn_usr'";
 			$sql_conn->query($sql_query);
+			
+			// Close the connection to MySQL
 			$sql_conn->close();
 			
 			// Forward the user to their account page

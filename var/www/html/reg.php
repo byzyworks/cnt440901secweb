@@ -41,6 +41,7 @@
 	$sql_uname  = 'root';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
+	$sql_table  = 'users';
 
 	// Create a connection to MySQL
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
@@ -51,7 +52,6 @@
 	}
 	
 	// Query database to see if user already exists
-	$sql_table = 'users';
 	$sql_query = "SELECT uname FROM $sql_table WHERE uname = '$form_uname'";
 	$result = $sql_conn->query($sql_query);
 	

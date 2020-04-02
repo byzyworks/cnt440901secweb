@@ -26,6 +26,7 @@
 	$sql_uname  = 'root';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
+	$sql_table  = 'users';
 	
 	// Create a connection to MySQL
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
@@ -36,7 +37,6 @@
 	}
 	
 	// Update the user's bio
-	$sql_table = 'users';
 	$sql_query = "UPDATE $sql_table SET bio = '$form_bio' WHERE uname = '$sesn_usr'";
 	$sql_conn->query($sql_query);
     $sql_conn->close();

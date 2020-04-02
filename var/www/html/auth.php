@@ -32,6 +32,7 @@
 	$sql_uname  = 'root';
 	$sql_passwd = '';
 	$sql_db     = 'cnt440901secweb';
+	$sql_table  = 'users';
 
 	// Create a connection to MySQL
 	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
@@ -42,7 +43,6 @@
 	}
 	
 	// Query database for user
-	$sql_table = 'users';
 	$sql_query = "SELECT passwd FROM $sql_table WHERE uname = '$form_uname' AND passwd = '$form_passwd'";
 	$result = $sql_conn->query($sql_query);
 	$sql_conn->close();
