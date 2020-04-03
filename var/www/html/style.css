@@ -1,0 +1,59 @@
+*
+{
+	font-family: courier;
+	font-size: 125%;
+}
+input[type=text], input[type=password]
+{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+button
+{
+	background-color: darkred;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+}
+button:hover
+{
+	opacity: 0.8;
+}
+.borderless_container
+{
+	padding: 16px;
+	font-size: 100%;
+}
+.container
+{
+	border: 3px solid #f1f1f1;
+	width: 800px;
+	padding: 16px;
+}
+form
+{
+	font-size: inherit;
+}
+textarea
+{
+	resize: vertical;
+	box-sizing: border-box;
+	width: 100%;
+}
+h
+{
+	font-weight: bold;
+}
+#bio_ctnt
+{
+	word-wrap: break-word;
+	white-space: pre-line;
+	width: 100%;
+}
