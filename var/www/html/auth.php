@@ -74,7 +74,7 @@
 				// Remember the user if they agreed to it
 				if (isset($form_remember))
 				{
-					setcookie('uname', $form_uname, time() + (86400 * 30), '/', isset($_SERVER['HTTPS']), true);
+					setcookie('uname', $form_uname, time() + (86400 * 30), '/', false, true); // Change 2nd to last parameter to isset($_SERVER['HTTPS']) to be HTTPS only, once it stops causing trouble with the cookies in general
 				}
 				
 				// Forward the user to their account page
