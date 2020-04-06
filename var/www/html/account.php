@@ -1,10 +1,8 @@
 <?php
-	session_start();
-	
 	require_once('globals.php');
 	require_once('functions.php');
 	
-	loadCookie();
+	loadSession();
 	
 	// Redirect users depending on if they're logged in or not and who's page they're on
 	if (!isset($_GET['user']))

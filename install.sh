@@ -13,16 +13,19 @@ mysql -u root -p -e "CREATE DATABASE cnt440901secweb; CREATE USER 'web-user'@'lo
 mysql -u root -p cnt440901secweb < cnt440901secweb.sql
 
 # Copy all the necessary files given here, overriding anything already there
-cp -rf etc/* /etc
-cp -rf var/* /var
+cp -rf etc /
+cp -rf var /
 
 # Set the permissions for the web root to ensure anyone can access the website
 chmod 755 -R /var/www
 
 # Edit the PHP configuration file as needed
-sed -i 's@^;include_path = .*$@include_path = "/var/www/includes"@' /etc/php5/apache2/php.ini
-sed -i 's@^session.use_strict_mode = 0$@session.use_strict_mode = 1@' /etc/php5/apache2/php.ini
-sed -i 's@^expose_php = On$@expose_php = Off@' /etc/php5/apache2/php.ini
+php_config='/etc/php5/apache2/php.ini'
+sed -Ei 's@^(;)?include_path =.*$@include_path = "/var/www/includes"@' $php_config
+sed -Ei 's@^(;)?expose_php =.*$@expose_php = Off@' $php_config
+sed -Ei 's@^(;)?session.use_strict_mode =.*$@session.use_strict_mode = 1@' $php_config
+sed -Ei 's@^(;)?session.cookie_secure =.*$@session.cookie_secure = 1@' $php_config
+sed -Ei 's@^(;)?session.cookie_httponly =.*$@session.cookie_httponly = 1@' $php_config
 
 # Open to both HTTP and HTTPS traffic. Both must be enabled, even if HTTP just redirects to HTTPS
 ufw enable
@@ -44,7 +47,7 @@ ln -s /etc/apache2/sites-available/000-default-ssl.conf /etc/apache2/sites-enabl
 a2enmod ssl
 a2enmod rewrite
 
-# Create a new, random pepper
+# Create a new, 24-character long random pepper
 dd if=/dev/urandom count=4 bs=4 | base64 > /etc/apache2/.phrase
 
 # Set the permissions for the server pepper

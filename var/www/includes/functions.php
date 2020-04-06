@@ -1,20 +1,15 @@
 <?php
-	// Load a cookie if it exists; use it to log in if applicable
-	function loadCookie()
+	// Load the session
+	function loadSession()
 	{
-		if (isset($_COOKIE['uname']))
-		{
-			$_SESSION['uname'] = $_COOKIE['uname'];
-		}
+		session_start();
 	}
 	
-	// Destroy cookie if it exists
-	function destroyCookie()
+	// Destroy the session
+	function destroySession()
 	{
-		if (isset($_COOKIE['uname']))
-		{
-			setcookie('uname', '', time() - (86400 * 30), '/');
-		}
+		session_unset();
+		session_destroy();
 	}
 	
 	// Standard for what to do on 500 Internal Server Error
@@ -132,12 +127,15 @@
 	// Set up a persistent session for the user logging in (won't log the user off after exiting their browser)
 	function createPersistentSession($uname)
 	{
-		setcookie('uname', $uname, time() + (86400 * 30), '/', false, true); // Change 2nd to last parameter to isset($_SERVER['HTTPS']) to be HTTPS only, once it stops causing trouble with the cookies in general
+		setcookie(session_name(), session_id(), time() + (86400 * 30), '/', '', isset($_SERVER['HTTPS']), true);
 	}
 	
 	// Log a user into the website
 	function loginUser($uname, $rememberMe)
 	{
+		// Due to privileges being elevated, create a new session ID for the user
+		session_regenerate_id();
+		
 		// Log the user in
 		$_SESSION['uname'] = $uname;
 		

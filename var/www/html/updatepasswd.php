@@ -1,10 +1,8 @@
 <?php
-	session_start();
-	
 	require_once('globals.php');
 	require_once('functions.php');
 	
-	loadCookie();
+	loadSession();
 	
 	// Redirect users if they opened this page through non-standard means
 	if (!isset($_SESSION['uname']))

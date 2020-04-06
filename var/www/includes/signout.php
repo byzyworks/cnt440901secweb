@@ -1,8 +1,5 @@
 <?php
-	destroyCookie();
-	
-	session_unset();
-	session_destroy();
+	destroySession();
 	
 	// Refresh the page the user was on
 	$page_last = $_SERVER['HTTP_REFERER'];
