@@ -8,6 +8,8 @@
 	// Destroy the session
 	function destroySession()
 	{
+		setcookie(session_name(), session_id(), time() - 3600);
+		
 		session_unset();
 		session_destroy();
 	}
