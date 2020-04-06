@@ -4,6 +4,9 @@
 apt-get update
 apt-get install apache2 mysql-server libapache2-mod-php5 php5-mysql
 
+# Get rid of the default web page separately since index.php is now used over index.html
+rm /var/www/html/index.html
+
 # Load the given database into MySQL for use by the web server
 mysql -u root -p -e "CREATE DATABASE cnt440901secweb;"
 mysql -u root -p cnt440901secweb < cnt440901secweb.sql
@@ -14,8 +17,8 @@ cp -rf var/* /var
 # Set the permissions for the web root to ensure anyone can access the website
 chmod 777 -R /var/www
 
-# Get rid of the default web page separately since index.php is now used over index.html
-rm /var/www/html/index.html
+# Edit the PHP configuration file as needed
+sed -i 's@^;include_path = .*$@include_path = "/var/www/includes"@' /etc/php5/apache2/php.ini
 
 # Restart the web server to apply the changes
 service apache2 restart
