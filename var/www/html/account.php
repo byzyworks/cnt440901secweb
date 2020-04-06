@@ -121,7 +121,7 @@
 		<div class="borderless_container">
 			<?php
 				echo '<span><b>';
-				if ($_GET['user'] == $_SESSION['uname'])
+				if (isset($_SESSION['uname']) && $_GET['user'] == $_SESSION['uname'])
 				{
 					echo 'Welcome, ';
 				}
@@ -129,7 +129,7 @@
 			?>
 		</div>
 		<?php
-			if (isset($bio) && !empty($bio) || $_GET['user'] == $_SESSION['uname'])
+			if (isset($bio) && !empty($bio) || (isset($_SESSION['uname']) && $_GET['user'] == $_SESSION['uname']))
 			{
 				echo '<div id="bio" class="container">';
 				if (isset($bio) && !empty($bio))
