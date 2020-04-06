@@ -1,14 +1,10 @@
 <?php
 	session_start();
 	
-	// Load a cookie if it exists
-	$cookie_usr = $_COOKIE['uname'];
-	if (isset($cookie_usr))
-	{
-		$_SESSION['uname'] = $cookie_usr;
-	}
+	require_once('globals.php');
+	require_once('functions.php');
 	
-	$sesn_usr = $_SESSION['uname'];
+	loadCookie();
 ?>
 
 <!doctype html>
@@ -22,7 +18,7 @@
 	<body>
 		<div class="container">
 			<?php
-				if (!isset($sesn_usr))
+				if (!isset($_SESSION['uname']))
 				{
 					echo '<button onclick="window.location.href = \'/signup\';">Sign Up</button>';
 					echo '<button onclick="window.location.href = \'/signin\';">Sign In</button>';
@@ -30,16 +26,18 @@
 				else
 				{
 					echo '<button onclick="window.location.href = \'/account\';">Account</button>';
-					echo '<button onclick="window.location.href = \'/out\';">Logout</button>';
+					echo '<form action="/scripts/signout" method="post">';
+					echo '<button type="submit">Logout</button>';
+					echo '</form>';
 				}
 			?>
 		</div>
 		<div class="borderless_container">
 			<?php
 				echo '<span><b>Welcome';
-				if (isset($sesn_usr))
+				if (isset($_SESSION['uname']))
 				{
-					echo ', ' . $sesn_usr;
+					echo ', ' . $_SESSION['uname'];
 				}
 				echo '</b></span>';
 			?>

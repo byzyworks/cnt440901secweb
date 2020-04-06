@@ -1,19 +1,24 @@
 DirectoryIndex index.php
 
 RewriteEngine On
+RewriteBase /
+
 RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 
-RewriteBase /
 RewriteRule ^index\.php$ - [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^account/(.*)$ account.php?user=$1
+RewriteRule ^account/(.*)$ account.php?user=$1 [NC,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^images/(.*)$ img.php?img=$1
+RewriteRule ^images/(.*)$ img.php?img=$1 [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^scripts/(.*)$ script.php?script=$1 [NC,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -21,8 +26,9 @@ RewriteRule ^(.*)\.html$ $1.php [NC,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ $1.php [NC,L]
+RewriteCond %{REQUEST_URI} !^/favicon\.ico$ 
+RewriteRule ^(.*)$ $1.php [NC,END]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
+RewriteRule . /index.php [END]
