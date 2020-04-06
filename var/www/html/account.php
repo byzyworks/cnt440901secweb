@@ -1,66 +1,31 @@
 <?php
 	session_start();
 	
-	$page_home = 'http://' . $_SERVER['HTTP_HOST'];
-	$page_curr = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	$page_usr  = $_GET['user'];
+	require_once('globals.php');
+	require_once('functions.php');
 	
-	// Load a cookie if it exists
-	$cookie_usr = $_COOKIE['uname'];
-	if (isset($cookie_usr))
+	loadCookie();
+	
+	// Redirect users depending on if they're logged in or not and who's page they're on
+	if (!isset($_GET['user']))
 	{
-		$_SESSION['uname'] = $cookie_usr;
-	}
-	
-	$sesn_usr = $_SESSION['uname'];
-	
-	// Redirect users depending on if they're logged in or not
-	if (!isset($page_usr))
-	{
-		if (!isset($sesn_usr))
+		if (!isset($_SESSION['uname']))
 		{
 			header('Location: ' . $page_home);
 			exit;
 		}
-		header('Location: ' . $page_curr . '?user=' . $sesn_usr);
+		header('Location: ' . $page_account . '?user=' . $_SESSION['uname']);
 		exit;
 	}
 	
-	$sql_server = 'localhost';
-	$sql_uname  = 'root';
-	$sql_passwd = '';
-	$sql_db     = 'cnt440901secweb';
-	$sql_table  = 'users';
-	
-	// Create a connection to MySQL
-	$sql_conn = new mysqli($sql_server, $sql_uname, $sql_passwd, $sql_db);
-	if ($sql_conn->connect_error)
+	// Retrieve the bio of the account owner, or throw a 404 if they don't exist
+	if (existingUser($_GET['user']))
 	{
-		header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-		die('500 Internal Server Error');
-	}
-	
-	// Extract bio from user profile
-	$sql_query = "SELECT bio FROM $sql_table WHERE uname = '$page_usr'";
-	$result = $sql_conn->query($sql_query);
-	$sql_conn->close();
-	
-	if ($result->num_rows > 0)
-	{
-		// Read the user's bio
-		while ($row = $result->fetch_assoc())
-		{
-			if (isset($row['bio']))
-			{
-				$page_bio = $row['bio'];
-			}
-		}
+		$bio = getBio($_GET['user']);
 	}
 	else
 	{
-		// Throw 404 if user goes to user page for non-existing user
-		header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found', true, 404);
-		die('404 Not Found');
+		forwardError404();
 	}
 ?>
 
@@ -87,7 +52,7 @@
 					innerHTML += '<textarea id="bio_ctnt_new" name="bio" form="bio_form">';
 					innerHTML += this.bio_ctnt;
 					innerHTML += '</textarea>';
-                    innerHTML += '<form id="bio_form" action="/updatebio.php" method="post">';
+                    innerHTML += '<form id="bio_form" action="/script.php?script=updatebio.php" method="post">';
 					innerHTML += '<button type="submit">Save</button>';
                     innerHTML += '</form>';
 					innerHTML += '<button onclick="resetBio()">Cancel</button>';
@@ -132,17 +97,19 @@
 		<div class="container">
 			<button onclick="window.location.href = '/';">Home</button>
 			<?php
-				if (isset($sesn_usr))
+				if (isset($_SESSION['uname']))
 				{
-					if ($page_usr != $sesn_usr)
+					if ($_GET['user'] != $_SESSION['uname'])
 					{
 						echo '<button onclick="window.location.href = \'/account.php\';">Account</button>';
 					}
 					else
 					{
-						echo '<button onclick="window.location.href = \'/reset.php\';">Change Password</button>';
+						echo '<button onclick="window.location.href = \'/updatepasswd.php\';">Change Password</button>';
 					}
-					echo '<button onclick="window.location.href = \'/out.php\';">Logout</button>';
+					echo '<form action="script.php?script=signout.php" method="post">';
+					echo '<button type="submit">Logout</button>';
+					echo '</form>';
 				}
 				else
 				{
@@ -154,24 +121,24 @@
 		<div class="borderless_container">
 			<?php
 				echo '<span><b>';
-				if ($page_usr == $sesn_usr)
+				if ($_GET['user'] == $_SESSION['uname'])
 				{
 					echo 'Welcome, ';
 				}
-				echo $page_usr . '</b></span>';
+				echo $_GET['user'] . '</b></span>';
 			?>
 		</div>
 		<?php
-			if (isset($page_bio) && !empty($page_bio) || $page_usr == $sesn_usr)
+			if (isset($bio) && !empty($bio) || $_GET['user'] == $_SESSION['uname'])
 			{
 				echo '<div id="bio" class="container">';
-				if (isset($page_bio) && !empty($page_bio))
+				if (isset($bio) && !empty($bio))
 				{
 					echo '<h>Bio:</h>';
 					echo '<section id="bio_ctnt">';
-					echo $page_bio;
+					echo $bio;
 					echo '</section>';
-					if ($page_usr == $sesn_usr)
+					if ($_GET['user'] == $_SESSION['uname'])
 					{
 						echo '<button onclick="editBio()">Edit Bio</button>';
 					}
@@ -179,7 +146,7 @@
 				else
 				{
 					echo '<section id="bio_ctnt"></section>';
-					if ($page_usr == $sesn_usr)
+					if ($_GET['user'] == $_SESSION['uname'])
 					{
 						echo '<button onclick="editBio()">Create Bio</button>';
 					}

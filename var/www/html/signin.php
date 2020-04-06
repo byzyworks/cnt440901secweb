@@ -1,21 +1,13 @@
 <?php
 	session_start();
 	
-	$page_account = 'http://' . $_SERVER['HTTP_HOST'] . '/account.php';
-	$page_curr    = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	$page_last    = $_SERVER['HTTP_REFERER'];
+	require_once('globals.php');
+	require_once('functions.php');
 	
-	// Load a cookie if it exists
-	$cookie_usr = $_COOKIE['uname'];
-	if (isset($cookie_usr))
-	{
-		$_SESSION['uname'] = $cookie_usr;
-	}
-	
-	$sesn_usr = $_SESSION['uname'];
+	loadCookie();
 	
 	// Redirect users if they opened this page through non-standard means
-	if (isset($sesn_usr))
+	if (isset($_SESSION['uname']))
 	{
 		header('Location: ' . $page_account);
 		exit;
@@ -35,7 +27,7 @@
 			<button onclick="window.location.href = '/';">Home</button>
 			<button onclick="window.location.href = '/signup.php';">Sign Up</button>
 		</div>
-		<form action="/auth.php" method="post">
+		<form action="script.php?script=signin.php" method="post">
 			<div class="container">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" placeholder="Enter Username" name="uname" required>
@@ -48,16 +40,13 @@
 			</div>
 		</form>
 		<?php
-			if ($page_curr == $page_last)
+			if (isset($_SESSION['error']))
 			{
-				$sesn_err = $_SESSION['error'];
+				echo '<div class="borderless_container">';
+				echo '<span><b>' . $_SESSION['error'] . '</b></span>';
+				echo '</div>';
 				
-				if (isset($sesn_err))
-				{
-					echo '<div class="borderless_container">';
-					echo '<span><b>' . $sesn_err . '</b></span>';
-					echo '</div>';
-				}
+				unset($_SESSION['error']);
 			}
 		?>
 	</body>
