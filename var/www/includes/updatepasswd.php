@@ -26,4 +26,3 @@
 	changePassword($_SESSION['uname'], $_POST['passwd_new']);
 	forwardUserSuccess($page_account);
 ?>
-
