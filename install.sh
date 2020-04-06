@@ -12,13 +12,13 @@ mysql -u root -p -e "CREATE DATABASE cnt440901secweb;"
 mysql -u root -p cnt440901secweb < cnt440901secweb.sql
 
 # Copy all the necessary files given here, overriding anything already there
-cp -rf var/* /var
+cp -rf var /
 
 # Set the permissions for the web root to ensure anyone can access the website
 chmod 777 -R /var/www
 
 # Edit the PHP configuration file as needed
-sed -i 's@^;include_path = .*$@include_path = "/var/www/includes"@' /etc/php5/apache2/php.ini
+sed -Ei 's@^(;)?include_path =.*$@include_path = "/var/www/includes"@' /etc/php5/apache2/php.ini
 
 # Restart the web server to apply the changes
 service apache2 restart

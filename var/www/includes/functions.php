@@ -1,20 +1,17 @@
 <?php
-	// Load a cookie if it exists; use it to log in if applicable
-	function loadCookie()
+	// Load the session
+	function loadSession()
 	{
-		if (isset($_COOKIE['uname']))
-		{
-			$_SESSION['uname'] = $_COOKIE['uname'];
-		}
+		session_start();
 	}
 	
-	// Destroy cookie if it exists
-	function destroyCookie()
+	// Destroy the session
+	function destroySession()
 	{
-		if (isset($_COOKIE['uname']))
-		{
-			setcookie('uname', '', time() - (86400 * 30), '/');
-		}
+		setcookie(session_name(), session_id(), time() - 3600);
+		
+		session_unset();
+		session_destroy();
 	}
 	
 	// Standard for what to do on 500 Internal Server Error
@@ -96,12 +93,15 @@
 	// Set up a persistent session for the user logging in (won't log the user off after exiting their browser)
 	function createPersistentSession($uname)
 	{
-		setcookie('uname', $uname, time() + (86400 * 30), '/');
+		setcookie(session_name(), session_id(), time() + (86400 * 30));
 	}
 	
 	// Log a user into the website
 	function loginUser($uname, $rememberMe)
 	{
+		// Due to privileges being elevated, create a new session ID for the user
+		session_regenerate_id();
+		
 		// Log the user in
 		$_SESSION['uname'] = $uname;
 		
@@ -135,7 +135,7 @@
 	{
 		$sql_conn = connectDB();
 		
-		$sql_query = "INSERT INTO $sql_table (uname, passwd) VALUES ('$uname', '$passwd')";
+		$sql_query = "INSERT INTO users (uname, passwd) VALUES ('$uname', '$passwd')";
 		$sql_conn->query($sql_query);
 		
 		disconnectDB($sql_conn);
