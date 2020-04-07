@@ -1,8 +1,55 @@
 <?php
+	// Get the connecting IP address
+	function getIPAddress()
+	{
+		// Server variable containing the IP address will change depending on whether the user is using a proxy or not
+		if (!empty($_SERVER['HTTP_CLIENT_IP']))
+		{
+			return $_SERVER['HTTP_CLIENT_IP'];
+		}
+		elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+		{
+			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+		}
+		else
+		{
+			return $_SERVER['REMOTE_ADDR'];
+		}
+	}
+	
+	// Verifies the IP address of the connected user, to deter session hijacking
+	function validIPAddress()
+	{
+		// Check if the user's IP address has changed from where they first arrived/logged in
+		if (getIPAddress() != $_SESSION['ip_address'])
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
 	// Load the session
 	function loadSession()
 	{
 		session_start();
+		
+		if (isset($_SESSION['ip_address']))
+		{
+			// If the IP address of the connecting user doesn't match the one set for the session ID sent with a cookie, the session is destroyed
+			// Admittedly, this will log legitimate users out as well if their cookies are stolen (or they change locations), but it greatly reduces the risk of a successful attack in most cases
+			if (!validIPAddress())
+			{
+				destroySession();
+				
+				session_start();
+				$_SESSION['error'] = 'Your IP address has changed.';
+			}
+		}
+		else
+		{
+			$_SESSION['ip_address'] = getIPAddress();
+		}
 	}
 	
 	// Destroy the session
