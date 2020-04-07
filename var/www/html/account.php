@@ -151,6 +151,14 @@
 				}
 				echo '</div>';
 			}
+			if (isset($_SESSION['error']))
+			{
+				echo '<div class="borderless_container">';
+				echo '<span><b>' . $_SESSION['error'] . '</b></span>';
+				echo '</div>';
+				
+				unset($_SESSION['error']);
+			}
 		?>
 		<script>
 			var myMain = new main();

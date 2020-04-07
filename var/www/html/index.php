@@ -43,5 +43,15 @@
 		<div class="container">
 			<img src="img.php?img=welcome.jpg" style="max-width:100%;"/>
 		</div>
+		<?php
+			if (isset($_SESSION['error']))
+			{
+				echo '<div class="borderless_container">';
+				echo '<span><b>' . $_SESSION['error'] . '</b></span>';
+				echo '</div>';
+				
+				unset($_SESSION['error']);
+			}
+		?>
 	</body>
 </html>
